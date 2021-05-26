@@ -10002,3 +10002,9 @@ h3 {
     border-color: #dee2e6;
   }
 }
+.authForm {
+  margin-top: 3em;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}

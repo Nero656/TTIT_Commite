@@ -6,20 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Laravel</title>
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script defer src="{{ asset('js/app.js') }}" ></script>
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <script defer src="{{ mix('js/app.js') }}" ></script>
 </head>
 
 <body>
 
 <!-- React root DOM -->
-<div id="user">
-
-</div>
-
-<div id="example" class="mt-5">
-
-</div>
+<div id="index"></div>
 
 </body>
 </html>

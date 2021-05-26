@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic;
 
 class User extends Authenticatable
 {
@@ -17,10 +19,42 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'username',
+        'login',
+        'telephone_number',
         'email',
         'password',
+        'avatar',
+        'api_token',
+        'role_id',
     ];
+
+    public static function avatar($file, $wight, $height)
+    {
+        $fileName = uniqid();
+
+        $image = ImageManagerStatic::make($file)
+            ->resize($wight, $height)
+            ->save(storage_path('app/public/images'.$fileName.'.webp'),100, 'webp');
+
+        $fileDir = 'app/public/';
+
+        return Storage::url($fileDir.$image->basename);
+    }
+
+    public function logout(){
+        $this->api_token = null;
+        $this->save();
+    }
+
+
+    static function studentList(){
+        return self::where(['role_id' => 3])->paginate(10);
+    }
+
+    static function professorList(){
+        return self::where(['role_id' => 2])->paginate(10);
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -29,7 +63,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'api_token',
     ];
 
     /**
@@ -38,6 +72,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'email',
     ];
 }
