@@ -14,11 +14,19 @@ class requestController extends Controller
         ])->setStatusCode(200);
     }
 
+    public function UserReqList(\App\Models\request $req, Request $request)
+    {
+        return response([
+            $req->where(['user_id' => $request->user_id])->with('category')->paginate(6)
+        ])->setStatusCode(200);
+    }
+
     public function store(requestRequest $request)
     {
         $req = \App\Models\request::create([
             'title' => $request->title,
             'category_id' => $request->category_id,
+            'user_id' => $request->user_id,
             'certificate' => $request->certificate,
             'Passport' => $request->Passport,
             'agreement' => $request->agreement

@@ -17,16 +17,19 @@ class categorySeeder extends Seeder
         DB::table('categories')->insert(
             [
                 'title' => 'Информационные системы и программирование(web)',
+                'desc' => 'Описание',
             ]
         );
         DB::table('categories')->insert(
             [
                 'title' => 'Информационные системы и программирование',
+                'desc' => 'Описание',
             ]
         );
         DB::table('categories')->insert(
             [
                 'title' => 'Системные администратрор',
+                'desc' => 'Описание',
             ]
         );
     }

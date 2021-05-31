@@ -8,8 +8,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from "@material-ui/core/Avatar";
-// import DeleteIcon from "@material-ui/icons"
-import {server} from "../../server"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,6 +51,11 @@ export default function MenuListComposition() {
 
         prevOpen.current = open;
     }, [open]);
+
+    function userPage(e){
+        return window.location.replace('/user-page')
+    }
+
     function logout(e) {
 
         fetch(`/api/user/logout`, {
@@ -66,7 +69,7 @@ export default function MenuListComposition() {
                 console.log('Выхода нет');
             } else {
                 localStorage.removeItem('token');
-
+                localStorage.removeItem('user');
                 window.location.replace('/');
             }
         })
@@ -85,7 +88,7 @@ export default function MenuListComposition() {
                     aria-controls={open ? 'menu-list-grow' : undefined}
                     aria-haspopup="true"
                     onClick={handleToggle}
-                    startIcon ={ <Avatar alt="Remy Sharp" src={user.avatar} />}
+                    startIcon ={ <Avatar alt={user.username} src={user.avatar} />}
                 >
                     {user.username}{}
                 </Button>
@@ -98,9 +101,9 @@ export default function MenuListComposition() {
                             <Paper>
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                        <MenuItem onClick={handleClose}>{user.username}</MenuItem>
-                                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                                        <MenuItem onClick={logout}>Logout</MenuItem>
+                                        <MenuItem onClick={userPage}>личный кабинет</MenuItem>
+                                        {/*<MenuItem onClick={handleClose}>My account</MenuItem>*/}
+                                        <MenuItem onClick={logout}>Выход</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>
                             </Paper>

@@ -41,6 +41,7 @@ Route::prefix('/category')->group(function (){
 
 Route::prefix('/requests')->group(function (){
     Route::middleware('auth:api')->get('/all', [requestController::class, 'index']);
+    Route::middleware('auth:api')->post('/ReqList', [requestController::class, 'UserReqList']);
     Route::middleware('auth:api')->get('/{request}', [requestController::class, 'show']);
     Route::middleware('auth:api')->post('/', [requestController::class, 'store']);
     Route::middleware('auth:api')->patch('/{request}', [requestController::class, 'update']);
@@ -50,6 +51,7 @@ Route::prefix('/requests')->group(function (){
 Route::prefix('/orders')->group(function (){
     Route::middleware('auth:api')->get('/all', [orderController::class, 'index']);
     Route::middleware('auth:api')->get('/{order}', [orderController::class, 'show']);
+    Route::middleware('auth:api')->post('/userOrder', [orderController::class, 'UserOrderList']);
     Route::middleware('auth:api')->post('/', [orderController::class, 'store']);
     Route::middleware('auth:api')->patch('/{order}', [orderController::class, 'update']);
     Route::middleware('auth:api')->delete('/{order}', [orderController::class, 'delete']);

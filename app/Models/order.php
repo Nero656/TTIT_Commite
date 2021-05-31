@@ -18,13 +18,9 @@ class order extends Model
     protected $fillable = [
         'file',
         'status',
-        'user_id',
-        'request_id'
+        'request_id',
+        'user_id'
     ];
-
-    public function user(){
-        return $this->hasMany(User::class, 'id','user_id');
-    }
 
     public function request(){
         return $this->hasMany(request::class, 'id','request_id');

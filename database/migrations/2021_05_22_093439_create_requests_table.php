@@ -17,10 +17,13 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->string('title');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('certificate');
             $table->string('Passport');
             $table->boolean('agreement');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

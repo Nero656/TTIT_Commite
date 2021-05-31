@@ -1,8 +1,15 @@
 import React from "react";
-import ReactDOM from 'react-dom';
-import Header from './elements/header'
-import Reg from "./views/user/registration";
+import ReactDOM from "react-dom";
+import Header from "./elements/header";
+import Footer from "./elements/footer";
+import Home from "./views/home";
 import Auth from "./views/user/Auth";
+import ProfL from "./views/profList";
+import UserPage from "./views/user/UserPage";
+import SendRequest from "./views/sendRequest"
+import Category from "./views/category";
+import Registration from "./views/user/registration";
+import AdminPanel from "./views/admin-penel/index"
 import {
     BrowserRouter as Router,
     Switch,
@@ -10,51 +17,44 @@ import {
 } from "react-router-dom";
 
 
+
 export default function Index() {
     return (
         <Router>
             <div>
                 <Header/>
-                <Switch>
-                    <Route path="/about">
-                        <About/>
+                <Switch className={'mb-3'}>
+                    <Route path="/prof-list">
+                        <ProfL/>
+                    </Route>
+                    <Route path="/user-page">
+                        <UserPage/>
                     </Route>
                     <Route path="/registration">
                         <Registration/>
                     </Route>
                     <Route path="/sign-in">
-                        <SingIn/>
+                        <Auth/>
                     </Route>
-
+                    <Route path="/category">
+                        <Category/>
+                    </Route>
+                    <Route path="/send-request">
+                        <SendRequest/>
+                    </Route>
+                    <Route path="/admin-panel">
+                        <AdminPanel/>
+                    </Route>
                     <Route path="/">
                         <Home/>
                     </Route>
                 </Switch>
+                <Footer/>
             </div>
         </Router>
     );
 }
 
-function Home() {
-    if (localStorage.token === undefined) {
-        return <div>Ты не авторизирован</div>
-    } else {
-        let user = JSON.parse(localStorage.getItem('User'));
-        return <div>Привет пользователь {user.username}</div>
-    }
-}
-
-function About() {
-    return <div>About</div>
-}
-
-function Registration() {
-    return <Reg/>;
-}
-
-function SingIn() {
-    return <Auth/>;
-}
 
 ReactDOM.render(
     ReactDOM.render(<Index/>, document.getElementById('index'))

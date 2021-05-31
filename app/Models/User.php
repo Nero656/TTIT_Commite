@@ -37,7 +37,7 @@ class User extends Authenticatable
             ->resize($wight, $height)
             ->save(storage_path('app/public/images'.$fileName.'.webp'),100, 'webp');
 
-        $fileDir = 'app/public/';
+        $fileDir = 'public/';
 
         return Storage::url($fileDir.$image->basename);
     }

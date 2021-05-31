@@ -1,8 +1,23 @@
-.authForm{
+.Form{
     margin-top: 3em;
     padding: 15px;
     border-radius: 10px;
     -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.butRight{
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+}
+
+.footer{
+    color: white;
+    width: 100%;
+    position: fixed;
+    margin-top: 10px;
+    bottom: 0;
+    background-color: #343A40;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class categoryController extends Controller
@@ -19,6 +20,8 @@ class categoryController extends Controller
     {
         $category = category::create([
             'title' => $request->title,
+            'img_url' => User::avatar($request->file('img_url'), 1920, 1080),
+            'desc' => $request->desc,
         ]);
 
         return response([
@@ -27,7 +30,10 @@ class categoryController extends Controller
     }
 
     public function update(category $category, Request $request){
-        $category->update($request->all());
+        $update = [
+            'img_url' => User::avatar($request->file('img_url'), 1920, 1080),
+        ];
+        $category->update(array_merge($request->all(), $update));
 
         return response([
             'You update category' => $category

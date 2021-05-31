@@ -21,6 +21,7 @@ class request extends Model
         'certificate',
         'Passport',
         'agreement',
+        'user_id',
         'category_id',
     ];
 

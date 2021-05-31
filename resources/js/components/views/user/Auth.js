@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {server} from "../../../server";
 import {TextField, makeStyles} from '@material-ui/core';
 
 
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Registration(name) {
+export default function Auth() {
     let login = UserInput('');
     let password = UserInput('');
 
@@ -48,7 +47,6 @@ export default function Registration(name) {
                 const error = (data && data.message) || response.status;
                 return Promise.reject(error);
             } else {
-                console.log(data.message);
                 localStorage.token = data.message
 
                 fetch(`/api/user/show`, {
@@ -73,15 +71,14 @@ export default function Registration(name) {
         }).catch(error => {
             console.log('не работает');
         });
-
-
     }
 
     return (
-        <form className={'container-fluid authForm col-6'} encType="form-data" onSubmit={sendReg}>
+        <form className={'container-fluid Form col-6'} encType="form-data" onSubmit={sendReg}>
             <h1 className={'text-center'}>Авторизация </h1>
-            <TextField {...login.bind} id="standard-basic" className={'col-lg-12'} label="Логин" name={'login'}/>
+            <TextField {...login.bind} required id="standard-basic" className={'col-lg-12'} label="Логин" name={'login'}/>
             <TextField
+                required
                 {...password.bind}
                 id="standard-password-input"
                 className={'col-lg-12 mt-4'}

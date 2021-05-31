@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {server} from "../../../server";
 import {TextField, Button, makeStyles} from '@material-ui/core';
 
 
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Registration(name) {
+export default function Registration() {
     let username = UserInput('');
     let login = UserInput('');
     let telephone = UserInput('');
@@ -44,7 +43,7 @@ export default function Registration(name) {
 
 
     function sendReg(e) {
-        preview = URL.createObjectURL(avatar);
+        // preview = URL.createObjectURL(avatar);
 
         let data = new FormData();
         data.append('username', username.value());
@@ -55,7 +54,7 @@ export default function Registration(name) {
         data.append('avatar', avatar);
 
         e.preventDefault()
-        fetch(`${server.baseURL}/api/user/registration`, {
+        fetch(`/api/user/registration`, {
             method: 'POST',
             body: data
         }).then(async response => {
@@ -64,16 +63,16 @@ export default function Registration(name) {
                 const error = (data && data.message) || response.status;
                 return Promise.reject(error);
             } else {
-                 window.location.replace('/sign-in');
+                window.location.replace('/sign-in');
             }
         }).catch(error => {
-            console.log('не работает', data.get('username'));
+            console.log('не работает');
         });
     }
 
 
     return (
-        <form className={'container-fluid authForm col-6'} encType="form-data" onSubmit={sendReg}>
+        <form className={'container-fluid Form col-6'} encType="form-data" onSubmit={sendReg}>
             <h1 className={'text-center'}>Регистрация {preview.value()}</h1>
             <div className={'form-row'}>
                 <div className={'form-group col-12'}>
@@ -130,7 +129,6 @@ export default function Registration(name) {
                     type="file"
                 />
 
-                <img src={preview.value()} alt=""/>
                 <label htmlFor="contained-button-file">
                     <Button variant="contained" color="primary" component="span">
                         Загрузить фотографию
@@ -145,5 +143,3 @@ export default function Registration(name) {
         </form>
     );
 }
-
-

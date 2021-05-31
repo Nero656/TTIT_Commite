@@ -7,13 +7,11 @@
     <title>Laravel</title>
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <script defer src="{{ mix('js/app.js') }}" ></script>
+    <script defer src="{{ mix('js/app.js') }}"></script>
 </head>
 
 <body>
-
 <!-- React root DOM -->
 <div id="index"></div>
-
 </body>
 </html>

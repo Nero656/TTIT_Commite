@@ -10,9 +10,17 @@ class orderController extends Controller
 {
     public function index(order $order){
         return response([
-            $order->with('user', 'request')->paginate(6)
+            $order->with('request.category')->paginate(6)
         ])->setStatusCode(200);
     }
+
+    public function UserOrderList(order $order, Request $request)
+    {
+        return response(
+            $order->with('request.category')->where(['user_id'=>$request->user_id])->get()
+        )->setStatusCode(200);
+    }
+
     public function store(Request $request){
 
         $order = order::create([
@@ -28,7 +36,7 @@ class orderController extends Controller
         ]);
     }
     public function show(order $order){
-        return $order->with('user', 'request')->findOrFail($order->id);
+        return $order->with( 'request.category')->findOrFail($order->id);
     }
 
     public function update(order $order, Request $request){
