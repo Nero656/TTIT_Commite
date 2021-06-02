@@ -10003,6 +10003,7 @@ h3 {
   }
 }
 .Form {
+  z-index: 100;
   margin-top: 3em;
   padding: 15px;
   border-radius: 10px;
@@ -10027,4 +10028,11 @@ html, body {
 .content-inside {
   padding: 20px;
   padding-bottom: 70px;
+}
+
+.footer {
+  z-index: 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
