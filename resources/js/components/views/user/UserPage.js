@@ -170,7 +170,6 @@ export default function User() {
                                     <React.Fragment key={id}>
                                         <Order prop={open} sendDate={idModal} getProp={handleClose}/>
                                         <ListItem button onClick={() => handleClickOpen(el.id)}>
-
                                             <ListItemAvatar>
                                                 <Avatar>
                                                     <InsertDriveFileIcon/>

@@ -20,6 +20,10 @@ export default function Header() {
                     {user.role_id === 1 &&
                         <Nav.Link href="/admin-panel">Административная панель</Nav.Link>
                     }
+
+                    {user.role_id === 2 &&
+                        <Nav.Link href="/applications">заявки для расмотрения</Nav.Link>
+                    }
                     <Nav.Link href="/category">Специальности и профессии</Nav.Link>
                     </Nav>
                 <Nav locale>

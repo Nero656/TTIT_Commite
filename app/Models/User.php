@@ -49,7 +49,7 @@ class User extends Authenticatable
 
 
     static function studentList(){
-        return self::where(['role_id' => 3])->paginate(10);
+        return self::where(['role_id' => 3])->get();
     }
 
     static function professorList(){

@@ -69,7 +69,7 @@ export default function MenuListComposition() {
                 console.log('Выхода нет');
             } else {
                 localStorage.removeItem('token');
-                localStorage.removeItem('user');
+                localStorage.removeItem('User');
                 window.location.replace('/');
             }
         })

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\category;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ class categoryController extends Controller
 {
     public function index()
     {
-        return category::all();
+        return Category::all();
     }
 
     /**
@@ -18,7 +18,7 @@ class categoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = category::create([
+        $category = Category::create([
             'title' => $request->title,
             'img_url' => User::avatar($request->file('img_url'), 1920, 1080),
             'desc' => $request->desc,
@@ -29,10 +29,12 @@ class categoryController extends Controller
         ])->setStatusCode(201);
     }
 
-    public function update(category $category, Request $request){
+    public function update(Category $category, Request $request){
+
         $update = [
-            'img_url' => User::avatar($request->file('img_url'), 1920, 1080),
+            "img_url" => User::avatar($request->file('img_url'), 1920, 1080),
         ];
+
         $category->update(array_merge($request->all(), $update));
 
         return response([
@@ -40,7 +42,7 @@ class categoryController extends Controller
         ])->setStatusCode(201);
     }
 
-    public function delete(category $category){
+    public function delete(Category $category){
         $category->delete();
 
         return response([

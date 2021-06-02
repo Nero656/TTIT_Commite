@@ -81,7 +81,7 @@ export default function Request() {
 
 
         e.preventDefault()
-        fetch(`/api/category/`, {
+        fetch(`/api/category/`+id+'?_method=patch', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -116,7 +116,7 @@ export default function Request() {
                     onChange={handleChange}
                 >
                     {items.map((item, id) => (
-                        <MenuItem value={id} key={id}>{item.title}</MenuItem>
+                        <MenuItem value={item.id} key={id}>{item.title}</MenuItem>
                     ))}
                 </Select>
             </FormControl>

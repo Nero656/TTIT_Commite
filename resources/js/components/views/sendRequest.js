@@ -87,8 +87,8 @@ export default function Request() {
 
     function sendReg(e) {
         let data = new FormData();
-        data.append('title', title.value());
-        data.append('category_id', id+1);
+        data.append('title', 'Заявка на паступление ' + user.username);
+        data.append('category_id', id);
         data.append('user_id', user.id);
         data.append('certificate', certificate.value());
         data.append('Passport', Passport.value());
@@ -118,15 +118,6 @@ export default function Request() {
     return (
         <form className={'container-fluid Form col-6 mt-5'} encType="form-data" onSubmit={sendReg}>
             <h1 className={'text-center'}>Отправить заявку</h1>
-            <div className={'mt-3'}>
-                <TextField
-                    className={'col-12'}
-                    {...title.bind}
-                    id="standard-basic"
-                    label="Загаловок"
-                    required
-                />
-            </div>
             {/*потом сделать файлом*/}
             <div className={'mt-3'}>
                 <TextField
@@ -159,7 +150,7 @@ export default function Request() {
                     onChange={handleChange}
                 >
                     {items.map((item, id) => (
-                        <MenuItem value={id} key={id}>{item.title}</MenuItem>
+                        <MenuItem value={item.id} key={id}>{item.title}</MenuItem>
                     ))}
                 </Select>
             </FormControl>

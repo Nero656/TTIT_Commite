@@ -10015,11 +10015,16 @@ h3 {
   bottom: 25px;
 }
 
-.footer {
-  color: white;
-  width: 100%;
-  position: fixed;
-  margin-top: 10px;
-  bottom: 0;
-  background-color: #343A40;
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.content {
+  min-height: 100%;
+}
+
+.content-inside {
+  padding: 20px;
+  padding-bottom: 70px;
 }
