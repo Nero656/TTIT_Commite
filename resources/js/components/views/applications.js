@@ -4,15 +4,9 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
-import * as items from "../../../../vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/js/d3.min";
 import AccordionActions from "@material-ui/core/AccordionActions";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-import {Cancel} from "@material-ui/icons";
-import Send from "@material-ui/icons/Send";
-import DialogActions from "@material-ui/core/DialogActions";
 
 const Accordion = withStyles({
     root: {
