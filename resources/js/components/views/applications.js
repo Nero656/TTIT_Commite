@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import AccordionActions from "@material-ui/core/AccordionActions";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Accordion = withStyles({
     root: {
@@ -52,6 +53,8 @@ const AccordionDetails = withStyles((theme) => ({
 export default function CustomizedAccordions() {
     const [expanded, setExpanded] = useState(0);
     const [items, setItems] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -68,10 +71,11 @@ export default function CustomizedAccordions() {
         ).then(async response => {
             if (!response.ok) {
                 const error = (data && data.message) || response.status;
-                // setError(error);
+                setError(error);
                 return Promise.reject(error);
             } else {
                 response.json().then(function (data) {
+                    setIsLoaded(true);
                     setItems(data);
                 });
             }
@@ -82,7 +86,7 @@ export default function CustomizedAccordions() {
         let data = new FormData();
         data.append('status', 'Принята');
 
-        fetch(`/api/orders/`+id+'?_method=patch', {
+        fetch(`/api/orders/` + id + '?_method=patch', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -106,7 +110,7 @@ export default function CustomizedAccordions() {
         let data = new FormData();
         data.append('status', 'Отменена');
 
-        fetch(`/api/orders/`+id+'?_method=patch', {
+        fetch(`/api/orders/` + id + '?_method=patch', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -126,52 +130,64 @@ export default function CustomizedAccordions() {
         });
     }
 
-    return (
-        <div className={'container Form col-10 col-lg-8'}>
-            {items.map((item, id) => (
-                <React.Fragment key={id}>
-                    {item.data.map((el, id) => (
-                        <React.Fragment key={id}>
-                            <Accordion square expanded={expanded === id} onChange={handleChange(id)}>
-                                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                                    {el.status === null &&
+    if (error) {
+        return <div>Ошибка: {error.message}</div>;
+    } else if (!isLoaded) {
+        return (
+            <div className={'container Form col-12 col-lg-6 '}>
+                <div className={'container-fluid row justify-content-center'}>
+                    <CircularProgress/>
+                </div>
+            </div>
+        );
+    } else {
+        return (
+            <div className={'container Form col-10 col-lg-8'}>
+                {items.map((item, id) => (
+                    <React.Fragment key={id}>
+                        {item.data.map((el, id) => (
+                            <React.Fragment key={id}>
+                                <Accordion square expanded={expanded === id} onChange={handleChange(id)}>
+                                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                                        {el.status === null &&
                                         <Typography>Заявка расматривается</Typography>
-                                    }
-                                    {el.status !== null &&
+                                        }
+                                        {el.status !== null &&
                                         <Typography>{el.status}</Typography>
-                                    }
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <Typography>
-                                        {el.request.map((req, id) => (
-                                            <React.Fragment key={id}>
-                                                <h1>Заявка: {req.title}</h1>
-                                                <h3>Атестат: {req.certificate}</h3>
-                                                {req.category.map((cat, id) => (
-                                                    <React.Fragment key={id}>
-                                                        <h3>Выбранная специальность: {cat.title}</h3>
-                                                    </React.Fragment>
-                                                ))}
-                                            </React.Fragment>
-                                        ))}
-                                    </Typography>
-                                </AccordionDetails>
-                                <Divider />
-                                <AccordionActions>
-                                    <Button color="secondary" variant="outlined" onClick={() => cancel(el.id)}>
-                                        Отменить заявку
-                                    </Button>
-                                    <Button color="primary" variant="contained" onClick={() => accept(el.id) }>
-                                        Подтердить заявку
-                                    </Button>
-                                </AccordionActions>
-                            </Accordion>
-                        </React.Fragment>
-                    ))}
-                </React.Fragment>
-            ))}
-        </div>
-    );
+                                        }
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography>
+                                            {el.request.map((req, id) => (
+                                                <React.Fragment key={id}>
+                                                    <h1>Заявка: {req.title}</h1>
+                                                    <h3>Атестат: {req.certificate}</h3>
+                                                    {req.category.map((cat, id) => (
+                                                        <React.Fragment key={id}>
+                                                            <h3>Выбранная специальность: {cat.title}</h3>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </React.Fragment>
+                                            ))}
+                                        </Typography>
+                                    </AccordionDetails>
+                                    <Divider/>
+                                    <AccordionActions>
+                                        <Button color="secondary" variant="outlined" onClick={() => cancel(el.id)}>
+                                            Отменить заявку
+                                        </Button>
+                                        <Button color="primary" variant="contained" onClick={() => accept(el.id)}>
+                                            Подтердить заявку
+                                        </Button>
+                                    </AccordionActions>
+                                </Accordion>
+                            </React.Fragment>
+                        ))}
+                    </React.Fragment>
+                ))}
+            </div>
+        );
+    }
 }
 
 

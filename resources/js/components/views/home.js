@@ -13,6 +13,20 @@ const useStyles = makeStyles((theme) => ({
 export default function body() {
     const classes = useStyles();
 
+    let user = [];
+    if (localStorage.getItem('User') !== null){
+        user = JSON.parse(localStorage.getItem('User'));
+    }
+
+    const handle = () => {
+        if (user.length === 0){
+            return window.location.replace('/registration');
+        }else{
+            return window.location.replace('/user-page');
+        }
+    };
+
+
     return (
         <div className={'container-fluid row justify-content-center'}>
             <ProfList/>
@@ -37,7 +51,6 @@ export default function body() {
                     административных условий.
                 </p>
                 <p className="text-justify">
-
                     Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей
                     деятельности играет важную роль в формировании системы обучения кадров, соответствует насущным
                     потребностям.
@@ -55,6 +68,7 @@ export default function body() {
                 <Button
                     variant="contained"
                     color="primary"
+                    onClick={handle}
                     className={classes.button}
                     endIcon={<SendIcon/>}
                 >
