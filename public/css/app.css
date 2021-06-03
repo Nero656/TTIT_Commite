@@ -10017,18 +10017,34 @@ h3 {
     bottom: 5px;
   }
 }
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
 .wrapper {
-  position: relative;
-  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .content {
-  padding-bottom: 90px;
+  flex: 1 0 auto;
 }
 
+@media screen and (min-height: 580px) {
+  .footer {
+    margin-top: 10px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+}
 .footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
+  flex: 0 0 auto;
 }

@@ -12,11 +12,6 @@ import YouTubeIcon from '@material-ui/icons/YouTube';
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © TTИT  Тел. приемной коммисии: +7 934 654 9090, ' +
-            'Приём с понидельника по пятницу с 8:30 да 18:00'}
-            <br/>
-
-
             <IconButton color="primary" component="span">
                 <FacebookIcon />
             </IconButton>
@@ -31,6 +26,8 @@ function Copyright() {
             </IconButton>
             <br/>
 
+            {'Copyright © TTИT  Тел. приемной коммисии: +7 934 654 9090, ' +
+            'Приём с понидельника по пятницу с 8:30 до 18:00 '}
             {new Date().getFullYear()}
             {'.'}
 
