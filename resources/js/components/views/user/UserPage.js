@@ -120,12 +120,12 @@ export default function User() {
     } else if (!isLoaded) {
         return (
             <div>
-                <div className={'container Form col-6 ' + classes.root}>
+                <div className={'container Form col-12 col-lg-6 ' + classes.root}>
                     <div className={'container-fluid row justify-content-center'}>
                         <CircularProgress/>
                     </div>
                 </div>
-                <div className={'container-fluid Form col-6 mt-4'}>
+                <div className={'container-fluid Form col-12 col-lg-6 mt-4'}>
                     <List>
                         <h2>Список заявок для поддтверждения:</h2>
                         <div className={'container-fluid row justify-content-center'}>
@@ -138,8 +138,8 @@ export default function User() {
     } else {
         return (
             <div>
-                <div className={'container Form col-6 ' + classes.root}>
-                    <div className={'row p-3'}>
+                <div className={'container Form col-12 col-lg-6 ' + classes.root}>
+                    <div className={'row'}>
                         <Avatar alt={user.username} src={user.avatar} className={classes.avatar}/>
                         <div className={'ml-5'}>
                             <h1>{user.username}</h1>
@@ -158,7 +158,7 @@ export default function User() {
                         </Button>
                     </div>
                 </div>
-                <div className={'container-fluid Form col-6 mt-4'}>
+                <div className={'container-fluid Form col-12 col-lg-6 mt-4'}>
                     <List>
                         <h2>Список заявок для поддтверждения: </h2>
                         {items.map((item, id) => (

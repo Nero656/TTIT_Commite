@@ -16,7 +16,7 @@ export default function body() {
     return (
         <div className={'container-fluid row justify-content-center'}>
             <ProfList/>
-            <div className={'Form ml-3 col-6'}>
+            <div className={'Form ml-3 col-12 col-lg-6'}>
                 <h1>Подача документов</h1>
                 <p className="text-justify">
                     С другой стороны начало повседневной работы по формированию позиции в значительной степени

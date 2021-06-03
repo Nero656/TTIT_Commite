@@ -10,7 +10,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
-    },
+    }
 });
 
 export default function category() {

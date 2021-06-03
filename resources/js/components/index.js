@@ -21,10 +21,9 @@ import {
 export default function Index() {
     return (
         <Router>
-            <div  className={'content mb-5'}>
+            <div className={'wrapper mb-5'}>
                 <Header/>
-                <div className={'content-inside'}>
-
+                <div className={'content'}>
                     <Switch >
                         <Route path="/prof-list">
                             <ProfL/>

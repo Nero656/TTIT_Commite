@@ -10010,29 +10010,25 @@ h3 {
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
-.butRight {
-  position: absolute;
-  right: 25px;
-  bottom: 25px;
+@media screen and (min-width: 900px) {
+  .butRight {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+  }
 }
-
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
-.content {
+.wrapper {
+  position: relative;
   min-height: 100%;
 }
 
-.content-inside {
-  padding: 20px;
-  padding-bottom: 70px;
+.content {
+  padding-bottom: 90px;
 }
 
 .footer {
-  z-index: 0;
-  position: fixed;
-  width: 100%;
+  position: absolute;
+  left: 0;
   bottom: 0;
+  width: 100%;
 }

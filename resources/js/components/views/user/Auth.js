@@ -74,7 +74,7 @@ export default function Auth() {
     }
 
     return (
-        <form className={'container-fluid Form col-6'} encType="form-data" onSubmit={sendReg}>
+        <form className={'container-fluid Form col-10 col-lg-6'} encType="form-data" onSubmit={sendReg}>
             <h1 className={'text-center'}>Авторизация </h1>
             <TextField {...login.bind} required id="standard-basic" className={'col-lg-12'} label="Логин" name={'login'}/>
             <TextField

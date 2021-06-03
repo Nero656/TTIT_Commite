@@ -43,9 +43,9 @@ export default function Request() {
 
     const [items, setItems] = useState([]);
     const classes = useStyles();
-    const [id, setId] = React.useState('');
-    const [Agr, setAgr] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
+    const [id, setId] = useState('');
+    const [Agr, setAgr] = useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         fetch(`/api/category/all`).then(async response => {
@@ -115,11 +115,11 @@ export default function Request() {
         });
     }
 
-    if(user === null){
-        return (<div>Ошибка, вы должны авторизироваться</div>)
+    if(user.length === 0){
+        return <div className={'container-fluid text-center mt-5'}>Ошибка 403, вы должны авторизироваться</div>
     }else{
         return (
-            <form className={'container-fluid Form col-6 mt-5'} encType="form-data" onSubmit={sendReg}>
+            <form className={'container-fluid Form col-10 col-lg-6 mt-5'} encType="form-data" onSubmit={sendReg}>
                 <h1 className={'text-center'}>Отправить заявку</h1>
                 {/*потом сделать файлом*/}
                 <div className={'mt-3'}>

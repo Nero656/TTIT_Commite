@@ -1,5 +1,9 @@
 import React, {useState} from "react";
 import {TextField, Button, makeStyles} from '@material-ui/core';
+import PhoneInput from "react-phone-number-input/input";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 
 
 function UserInput() {
@@ -29,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Registration() {
     let username = UserInput('');
     let login = UserInput('');
-    let telephone = UserInput('');
+    let [tel, setTel] = useState('');
     let email = UserInput('');
     let password = UserInput('');
     let preview = UserInput('');
@@ -48,7 +52,7 @@ export default function Registration() {
         let data = new FormData();
         data.append('username', username.value());
         data.append('login', login.value());
-        data.append('telephone_number', telephone.value());
+        data.append('telephone_number', tel);
         data.append('email', email.value());
         data.append('password', password.value());
         data.append('avatar', avatar);
@@ -72,7 +76,7 @@ export default function Registration() {
 
 
     return (
-        <form className={'container-fluid Form col-6'} encType="form-data" onSubmit={sendReg}>
+        <form className={'container-fluid Form col-12 col-lg-6 '} encType="form-data" onSubmit={sendReg}>
             <h1 className={'text-center'}>Регистрация {preview.value()}</h1>
             <div className={'form-row'}>
                 <div className={'form-group col-12'}>
@@ -93,14 +97,18 @@ export default function Registration() {
                     />
                 </div>
                 <div className={'form-group col-12'}>
-                    <TextField
-                        {...telephone.bind}
-                        id="standard-basic"
-                        className={'col-lg-4'}
-                        required
-                        label="Телефон"
-                        name={'telephone_number'}
-                    />
+                    <FormControl  className={'col-lg-4'}>
+                        <InputLabel htmlFor="formatted-text-mask-input">Номер телефона</InputLabel>
+                        <Input
+                            value={tel}
+                            onChange={setTel}
+                            required
+                            name={"telephone_number"}
+                            id="formatted-text-mask-input"
+                            inputComponent={PhoneInput}
+                        />
+                    </FormControl>
+
                     <TextField
                         {...email.bind}
                         type={'email'}
