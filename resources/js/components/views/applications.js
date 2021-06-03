@@ -142,49 +142,84 @@ export default function CustomizedAccordions() {
         );
     } else {
         return (
-            <div className={'container Form col-10 col-lg-8'}>
-                {items.map((item, id) => (
-                    <React.Fragment key={id}>
-                        {item.data.map((el, id) => (
-                            <React.Fragment key={id}>
-                                <Accordion square expanded={expanded === id} onChange={handleChange(id)}>
-                                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                                        {el.status === null &&
-                                        <Typography>Заявка расматривается</Typography>
-                                        }
-                                        {el.status !== null &&
-                                        <Typography>{el.status}</Typography>
-                                        }
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <Typography>
-                                            {el.request.map((req, id) => (
-                                                <React.Fragment key={id}>
-                                                    <h1>Заявка: {req.title}</h1>
-                                                    <h3>Атестат: {req.certificate}</h3>
-                                                    {req.category.map((cat, id) => (
-                                                        <React.Fragment key={id}>
-                                                            <h3>Выбранная специальность: {cat.title}</h3>
-                                                        </React.Fragment>
-                                                    ))}
-                                                </React.Fragment>
-                                            ))}
-                                        </Typography>
-                                    </AccordionDetails>
-                                    <Divider/>
-                                    <AccordionActions>
-                                        <Button color="secondary" variant="outlined" onClick={() => cancel(el.id)}>
-                                            Отменить заявку
-                                        </Button>
-                                        <Button color="primary" variant="contained" onClick={() => accept(el.id)}>
-                                            Подтердить заявку
-                                        </Button>
-                                    </AccordionActions>
-                                </Accordion>
-                            </React.Fragment>
-                        ))}
-                    </React.Fragment>
-                ))}
+            <div>
+                <div className={'container Form col-10 col-lg-8'}>
+                    <h1>Заявки для рассмотрения</h1>
+                    {items.map((item, id) => (
+                        <React.Fragment key={id}>
+                            {item.data.map((el, id) => (
+                                <React.Fragment key={id}>
+                                    {el.status === null &&
+                                    <Accordion square expanded={expanded === id} onChange={handleChange(id)}>
+                                        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                                            <Typography>Заявка расматривается</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                                {el.request.map((req, id) => (
+                                                    <React.Fragment key={id}>
+                                                        <h1>Заявка: {req.title}</h1>
+                                                        <h3>Атестат: {req.certificate}</h3>
+                                                        {req.category.map((cat, id) => (
+                                                            <React.Fragment key={id}>
+                                                                <h3>Выбранная специальность: {cat.title}</h3>
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </React.Fragment>
+                                                ))}
+                                            </Typography>
+                                        </AccordionDetails>
+                                        <Divider/>
+                                        <AccordionActions>
+                                            <Button color="secondary" variant="outlined" onClick={() => cancel(el.id)}>
+                                                Отменить заявку
+                                            </Button>
+                                            <Button color="primary" variant="contained" onClick={() => accept(el.id)}>
+                                                Подтердить заявку
+                                            </Button>
+                                        </AccordionActions>
+                                    </Accordion>
+                                    }
+                                </React.Fragment>
+                            ))}
+                        </React.Fragment>
+                    ))}
+                </div>
+
+                <div className={'container Form col-10 col-lg-8'}>
+                    <h1>Принятые заявки</h1>
+                    {items.map((item, id) => (
+                        <React.Fragment key={id}>
+                            {item.data.map((el, id) => (
+                                <React.Fragment key={id}>
+                                    {el.status !== null &&
+                                    <Accordion square expanded={expanded === id} onChange={handleChange(id)}>
+                                        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                                            <Typography>{el.status}</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                                {el.request.map((req, id) => (
+                                                    <React.Fragment key={id}>
+                                                        <h1>Заявка: {req.title}</h1>
+                                                        <h3>Атестат: {req.certificate}</h3>
+                                                        {req.category.map((cat, id) => (
+                                                            <React.Fragment key={id}>
+                                                                <h3>Выбранная специальность: {cat.title}</h3>
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </React.Fragment>
+                                                ))}
+                                            </Typography>
+                                        </AccordionDetails>
+                                        <Divider/>
+                                    </Accordion>
+                                    }
+                                </React.Fragment>
+                            ))}
+                        </React.Fragment>
+                    ))}
+                </div>
             </div>
         );
     }

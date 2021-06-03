@@ -10031,20 +10031,13 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 710px;
 }
 
 .content {
   flex: 1 0 auto;
 }
 
-@media screen and (min-height: 580px) {
-  .footer {
-    margin-top: 10px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-  }
-}
 .footer {
   flex: 0 0 auto;
 }
