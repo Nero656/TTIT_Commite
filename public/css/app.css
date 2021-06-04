@@ -10005,16 +10005,28 @@ h3 {
 .Form {
   z-index: 100;
   margin-top: 3em;
+  background-color: #ffffff;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
-@media screen and (min-width: 900px) {
+.UserCard {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+@media screen and (min-width: 480px) {
   .butRight {
     position: absolute;
-    right: 5px;
-    bottom: 5px;
+    right: 25px;
+    top: 230px;
+  }
+}
+@media screen and (max-width: 479px) {
+  .butRight {
+    position: center;
+    margin-top: 15px;
   }
 }
 * {

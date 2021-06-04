@@ -109,9 +109,8 @@ export default function CustomizedAccordions() {
     function cancel(id) {
         let data = new FormData();
         data.append('status', 'Отменена');
-
         fetch(`/api/orders/` + id + '?_method=patch', {
-            method: 'POST',
+            method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.token
@@ -134,10 +133,8 @@ export default function CustomizedAccordions() {
         return <div>Ошибка: {error.message}</div>;
     } else if (!isLoaded) {
         return (
-            <div className={'container Form col-12 col-lg-6 '}>
-                <div className={'container-fluid row justify-content-center'}>
-                    <CircularProgress/>
-                </div>
+            <div className={'container-fluid row justify-content-center mt-5'}>
+                <CircularProgress/>
             </div>
         );
     } else {

@@ -1,6 +1,5 @@
 import React from "react";
 import {makeStyles} from '@material-ui/core';
-import ProfList from './profList'
 import Button from "@material-ui/core/Button";
 import SendIcon from '@material-ui/icons/Send';
 
@@ -26,10 +25,8 @@ export default function body() {
         }
     };
 
-
     return (
         <div className={'container-fluid row justify-content-center'}>
-            <ProfList/>
             <div className={'Form ml-3 col-12 col-lg-6'}>
                 <h1>Подача документов</h1>
                 <p className="text-justify">

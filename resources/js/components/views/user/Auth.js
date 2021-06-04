@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {TextField, makeStyles} from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 
 function UserInput() {
@@ -24,14 +26,29 @@ const useStyles = makeStyles((theme) => ({
     input: {
         display: 'none',
     },
+    alert: {
+        width: '100%',
+        '& > * + *': {
+            marginTop: theme.spacing(2),
+        },
+    },
 }));
 
 export default function Auth() {
     let login = UserInput('');
     let password = UserInput('');
+    let [error, setError] = useState('')
+    let [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     function sendReg(e) {
-
         let data = new FormData();
         data.append('login', login.value());
         data.append('password', password.value());
@@ -43,8 +60,10 @@ export default function Auth() {
             body: data
         }).then(async response => {
             const data = await response.json();
+            console.log(response.ok);
             if (!response.ok) {
                 const error = (data && data.message) || response.status;
+                setOpen(true);
                 return Promise.reject(error);
             } else {
                 localStorage.token = data.message
@@ -54,29 +73,39 @@ export default function Auth() {
                         'Accept': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.token
                     },
-                } ).then(function(response) {
+                }).then(function (response) {
                     if (response.status !== 200) {
                         const error = (data && data.message) || response.status;
                         return Promise.reject(error);
                     }
                     // Examine the text in the response
-                    response.json().then(function(data) {
+                    response.json().then(function (data) {
                         const user = JSON.stringify(data);
                         localStorage.setItem('User', user);
-                        console.log('user ',localStorage.getItem('User'))
+                        console.log('user ', localStorage.getItem('User'))
                         window.location.replace('/');
                     });
                 })
             }
         }).catch(error => {
-            console.log('не работает');
+            setError('Ошибка авторизации, проверьте свои данные');
         });
     }
 
     return (
         <form className={'container-fluid Form col-10 col-lg-6'} encType="form-data" onSubmit={sendReg}>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    {error}
+                </Alert>
+            </Snackbar>
             <h1 className={'text-center'}>Авторизация </h1>
-            <TextField {...login.bind} required id="standard-basic" className={'col-lg-12'} label="Логин" name={'login'}/>
+            <TextField {...login.bind} required id="standard-basic" className={'col-lg-12'} label="Логин"
+                       name={'login'}/>
             <TextField
                 required
                 {...password.bind}

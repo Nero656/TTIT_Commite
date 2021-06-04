@@ -18,6 +18,6 @@ class ApiRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json($validator->errors()->toArray())->setStatusCode(500));
+        throw new HttpResponseException(response()->json($validator->errors())->setStatusCode(500));
     }
 }

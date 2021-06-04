@@ -6,8 +6,17 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SendIcon from "@material-ui/icons/Send";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        maxHeight: 450,
+    }
+}));
+
 
 export default function ProfList() {
+    const classes = useStyles()
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
@@ -29,7 +38,7 @@ export default function ProfList() {
         return <div>Ошибка: {error.message}</div>;
     } else if (!isLoaded) {
         return (
-            <List className={'Form mt-5'}>
+            <List className={'Form col-lg-2 mt-5 '+classes.root}>
                 <h5 className={'p-3'}>Представители приемной комиссии:</h5>
                 <div className={'container-fluid row justify-content-center'}>
                     <CircularProgress/>
@@ -38,8 +47,8 @@ export default function ProfList() {
         );
     } else {
         return (
-            <List className={'Form mt-5'}>
-                <h5 className={'p-3'}>Представители приемной комиссии:</h5>
+            <List className={'Form col-lg-2 mt-5 '+classes.root}>
+                <h5 className={'p-3'}>Задать вопрос представителю приемной комиссии:</h5>
                 {items.map((item, id) => (
                     <React.Fragment key={id}>
                         <ListItem button>

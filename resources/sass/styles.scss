@@ -1,6 +1,7 @@
 .Form {
     z-index: 100;
     margin-top: 3em;
+    background-color: #ffffff;
     padding: 15px;
     border-radius: 10px;
     -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -8,15 +9,24 @@
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
+.UserCard {
+    display: flex;
+    flex-flow: row wrap;
+}
 
-@media screen {
-    @media screen and (min-width: 900px) {
+
+@media screen and (min-width: 480px) {
     .butRight {
-            position: absolute;
-            right: 5px;
-            bottom: 5px;
+        position: absolute;
+        right: 25px;
+        top: 230px;
+    }
+}
 
-        }
+@media screen and (max-width: 479px) {
+    .butRight {
+        position: center;
+        margin-top: 15px;
     }
 }
 
@@ -24,16 +34,19 @@
     margin: 0;
     padding: 0;
 }
+
 html,
 body {
     height: 100%;
 }
+
 .wrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 710px ;
+    min-height: 710px;
 }
+
 .content {
     flex: 1 0 auto;
 }

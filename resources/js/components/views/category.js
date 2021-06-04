@@ -10,7 +10,12 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
-        height: 500,
+        height : 500,
+    },
+    action:{
+        verticalAlign:'top',
+        display:'inline-block',
+        height:500,
     }
 });
 
@@ -47,12 +52,11 @@ export default function category() {
             <div className={'container  mt-5 '}>
                 <div className={'row row-cols-lg-3'}>
                 {items.map((item, id) => (
-                    <Card className={classes.root + ' ml-3 mt-2 '}>
-                        <CardActionArea>
+                    <CardActionArea className={classes.root+' ml-3 mt-2 '}>
+                    <Card className={classes.root}>
                             <CardMedia
                                 component="img"
                                 alt="Contemplative Reptile"
-                                height="140"
                                 image={item.img_url}
                                 title="Contemplative Reptile"
                             />
@@ -64,8 +68,8 @@ export default function category() {
                                     {item.desc.substring(0,200) + '...'}
                                 </Typography>
                             </CardContent>
-                        </CardActionArea>
                     </Card>
+                    </CardActionArea>
                 ))}
                 </div>
             </div>

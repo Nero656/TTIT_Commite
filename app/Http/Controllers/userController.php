@@ -60,13 +60,13 @@ class userController extends Controller
     public function auth()
     {
         if (!auth()->attempt(request(['login', 'password']))) {
-            return response()->json(['message' => 'authorization error']);
+            return response()->json(['message' => 'authorization error'])->setStatusCode(403);
         }
 
         Auth::user()->api_token = Hash::make(Str::random(40));
         Auth::user()->save();
 
-        return response(['message' => Auth::user()->api_token]);
+        return response(['message' => Auth::user()->api_token])->setStatusCode(201);
     }
 
 

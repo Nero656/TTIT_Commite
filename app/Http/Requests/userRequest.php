@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
-
 use App\Http\Requests\ApiRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Validation\ValidationException;
-
 
 class userRequest extends ApiRequest
 {
@@ -17,12 +13,12 @@ class userRequest extends ApiRequest
     public function rules()
     {
         return [
-            "username" => "",
-            "login" => "",
-            "email" => "",
-            "avatar" => "",
-            "telephone_number" => "",
-            "password" => "",
+            "username" => "required",
+            "login" => "required|unique:users",
+            "email" => "required|unique:users",
+            "avatar" => "required",
+            "telephone_number" => "unique:users",
+            "password" => "required",
             "role_id",
         ];
     }
