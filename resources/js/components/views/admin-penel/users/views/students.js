@@ -14,12 +14,22 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import Avatar from "@material-ui/core/Avatar";
+import TableHead from "@material-ui/core/TableHead";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Fade from "@material-ui/core/Fade";
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
         flexShrink: 0,
         marginLeft: theme.spacing(2.5),
     },
+    avatar: {
+        width: theme.spacing(25),
+        height: theme.spacing(25),
+    }
 }));
 
 function TablePaginationActions(props) {
@@ -95,6 +105,8 @@ export default function CustomPaginationActionsTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [items, setItems] = useState([]);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
 
     useEffect(() => {
         fetch(`api/user/studList`,
@@ -121,6 +133,14 @@ export default function CustomPaginationActionsTable() {
         setPage(newPage);
     };
 
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
@@ -129,12 +149,24 @@ export default function CustomPaginationActionsTable() {
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="custom pagination table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Изоброжение</TableCell>
+                        <TableCell>ФИО</TableCell>
+                        <TableCell>Логин</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>роль</TableCell>
+                        <TableCell>телефон</TableCell>
+                    </TableRow>
+                </TableHead>
                 <TableBody>
                     {(rowsPerPage > 0
                             ? items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : items
-                    ).map((item) => (
+                            : items).map((item) => (
                         <TableRow key={item.id}>
+                            <TableCell component="th" scope="row" style={{ width: 160 }}>
+                                <Avatar alt={item.username} src={item.avatar} className={classes.avatar}/>
+                            </TableCell>
                             <TableCell component="th" scope="row" style={{ width: 160 }}>
                                 {item.username}
                             </TableCell>
@@ -145,7 +177,21 @@ export default function CustomPaginationActionsTable() {
                                 {item.email}
                             </TableCell>
                             <TableCell style={{ width: 160 }}>
-                                {item.role_id}
+                                <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
+                                    студент
+                                </Button>
+                                <Menu
+                                    id="fade-menu"
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={open}
+                                    onClose={handleClose}
+                                    TransitionComponent={Fade}
+                                >
+                                    <MenuItem onClick={handleClose}>Студент</MenuItem>
+                                    <MenuItem onClick={handleClose}>Преподователь</MenuItem>
+                                </Menu>
+
                             </TableCell>
                             <TableCell style={{ width: 160 }}>
                                 {item.telephone_number}
@@ -181,3 +227,4 @@ export default function CustomPaginationActionsTable() {
         </TableContainer>
     );
 }
+

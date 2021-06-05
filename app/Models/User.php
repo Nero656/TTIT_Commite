@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,9 +39,7 @@ class User extends Authenticatable
 
         $fileDir = 'public/';
 
-        cloudinary()->upload($file->getRealPath())->getSecurePath();
-
-        return Storage::url();
+        return Storage::url($fileDir.$image->basename);
     }
 
     public function logout(){
@@ -50,11 +49,11 @@ class User extends Authenticatable
 
 
     static function studentList(){
-        return self::where(['role_id' => 3])->get();
+        return self::where(['role_id' => 3])->paginate(10);
     }
 
     static function professorList(){
-        return self::where(['role_id' => 2])->where('api_token', '<>', null)->paginate(10);
+        return self::where(['role_id' => 2])->paginate(10);
     }
 
     /**
@@ -64,6 +63,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'api_token',
     ];
 
     /**

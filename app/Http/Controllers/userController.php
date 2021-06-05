@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\userRequest;
 use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -20,7 +21,6 @@ class userController extends Controller
                 "login" => $request->login,
                 "email" => $request->email,
                 "avatar" => User::avatar($request->file('avatar'), 250, 250),
-//todo "avatar" => Cloudinary::upload($request->file('avatar')->getRealPath())->getSecurePath(),
                 "telephone_number" => $request->telephone_number,
                 "password" => hash::make($request->password),
                 "role_id" => $request->role_id = 3,
@@ -45,7 +45,8 @@ class userController extends Controller
         return $user;
     }
 
-    public function show(){
+    public function show()
+    {
         return Auth::user();
     }
 
@@ -57,6 +58,37 @@ class userController extends Controller
     public function profList()
     {
         return User::professorList();
+    }
+
+    public function update(User $user, Request $request)
+    {
+        if ($request->file('avatar') === null) {
+            $update = [
+                "username" => $request->username,
+                "login" => $request->login,
+                "email" => $request->email,
+                "telephone_number" => $request->telephone_number,
+                "password" => hash::make($request->password),
+                "role_id" => $request->role_id,
+            ];
+
+            $user->update(array_merge($request->all(), $update));
+
+            return response([
+                'You update user' => $user
+            ])->setStatusCode(201);
+        } else {
+
+            $update = [
+                "avatar" => User::avatar($request->file('avatar'), 250, 250),
+                "password" => hash::make($request->password),
+            ];
+            $user->update(array_merge($request->all(), $update));
+
+            return response([
+                'You update user' => $user
+            ])->setStatusCode(201);
+        }
     }
 
 
