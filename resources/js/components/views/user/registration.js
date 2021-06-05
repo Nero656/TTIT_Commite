@@ -38,7 +38,8 @@ export default function Registration() {
     let [tel, setTel] = useState('');
     let email = UserInput('');
     let password = UserInput('');
-    let avatar = UserInput('');
+    let avatarUrl = UserInput('')
+    let avatarFile = UserInput('');
     let [error, setError] = useState({})
     let [open, setOpen] = useState(false);
 
@@ -53,7 +54,7 @@ export default function Registration() {
     const classes = useStyles();
 
     function fileUpload(e) {
-        avatar = e.target.files[0];
+        avatarFile = e.target.files[0];
     }
 
 
@@ -66,7 +67,14 @@ export default function Registration() {
         data.append('telephone_number', tel);
         data.append('email', email.value());
         data.append('password', password.value());
-        data.append('avatar', avatar);
+
+        if(avatarUrl.value() !== '') {
+            data.append('avatar', avatarUrl.value().toString());
+        }
+
+        if(avatarFile !== '') {
+            data.append('avatar', avatarFile);
+        }
 
         e.preventDefault()
         fetch(`/api/user/registration`, {
@@ -80,7 +88,7 @@ export default function Registration() {
                 const error = (data && data.message) || response.status;
                 return Promise.reject(error);
             } else {
-                window.location.replace('/sign-in');
+                // window.location.replace('/sign-in');
             }
         }).catch(error => {
             setError({mes :'Ошибка проверте правильность данных'});
@@ -90,7 +98,7 @@ export default function Registration() {
 
     return (
         <form className={'container-fluid Form col-12 col-lg-6 '} encType="form-data" onSubmit={sendReg}>
-            <h1 className={'text-center'}>Регистрация</h1>
+            <h1 className={'text-center'}>Регистрация {avatarUrl.value()}</h1>
 
             <Snackbar
                 open={open}
@@ -108,7 +116,8 @@ export default function Registration() {
                     id="standard-basic"
                     className={'col-12'}
                     label="ФИО"
-                    required name={'username'}
+                    required
+                    name={'username'}
                 />
                 <TextField
                     {...login.bind}
@@ -146,6 +155,14 @@ export default function Registration() {
                     className={'col-12'}
                     label="Пароль" type="password"
                     name={'password'}
+                />
+
+                <TextField
+                    {...avatarUrl.bind}
+                    id="standard-basic"
+                    className={'col-12'}
+                    label="Изоброжение URL"
+                    name={'avatar'}
                 />
             </div>
 

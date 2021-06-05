@@ -64,6 +64,9 @@ export default function reqListForWaiting() {
                     <React.Fragment key={id}>
                         {item.request.map((el, id) => (
                             <React.Fragment key={id}>
+                                {el === 0 &&
+                                    <div className={'p-2'}>Заявок нет</div>
+                                }
                                 {item.status === null &&
                                 <ListItem button>
                                     <ListItemAvatar>
@@ -79,9 +82,7 @@ export default function reqListForWaiting() {
                                     <SendIcon/>
                                 </ListItem>
                                 }
-                                {el.length === 0 &&
-                                    <div className={'p-2'}>Заявок нет</div>
-                                }
+
                             </React.Fragment>
                         ))}
                     </React.Fragment>

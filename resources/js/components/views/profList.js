@@ -7,6 +7,8 @@ import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SendIcon from "@material-ui/icons/Send";
 import {makeStyles} from "@material-ui/core/styles";
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,6 +51,11 @@ export default function ProfList() {
         return (
             <List className={'Form col-lg-2 mt-5 '+classes.root}>
                 <h5 className={'p-3'}>Задать вопрос представителю приемной комиссии:</h5>
+                {items.length === 0 &&
+                <div className={'container-fluid text-center mt-5'}>
+                    <span>Никого нет онлайн <SentimentVeryDissatisfiedIcon/></span>
+                </div>
+                }
                 {items.map((item, id) => (
                     <React.Fragment key={id}>
                         <ListItem button>

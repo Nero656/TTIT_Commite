@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\userRequest;
 use App\Models\User;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -19,6 +20,7 @@ class userController extends Controller
                 "login" => $request->login,
                 "email" => $request->email,
                 "avatar" => User::avatar($request->file('avatar'), 250, 250),
+//todo "avatar" => Cloudinary::upload($request->file('avatar')->getRealPath())->getSecurePath(),
                 "telephone_number" => $request->telephone_number,
                 "password" => hash::make($request->password),
                 "role_id" => $request->role_id = 3,
@@ -28,6 +30,7 @@ class userController extends Controller
                 "username" => $request->username,
                 "login" => $request->login,
                 "email" => $request->email,
+                "avatar" => $request->avatar,
                 "telephone_number" => $request->telephone_number,
                 "password" => hash::make($request->password),
                 "role_id" => $request->role_id = 3,

@@ -38,7 +38,9 @@ class User extends Authenticatable
 
         $fileDir = 'public/';
 
-        return Storage::url($fileDir.$image->basename);
+        cloudinary()->upload($file->getRealPath())->getSecurePath();
+
+        return Storage::url();
     }
 
     public function logout(){
@@ -52,7 +54,7 @@ class User extends Authenticatable
     }
 
     static function professorList(){
-        return self::where(['role_id' => 2])->paginate(10);
+        return self::where(['role_id' => 2])->where('api_token', '<>', null)->paginate(10);
     }
 
     /**
@@ -62,7 +64,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'api_token',
     ];
 
     /**

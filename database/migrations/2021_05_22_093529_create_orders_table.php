@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('file');
             $table->string('status')->nullable();
+            $table->boolean('is_del')->default(0);
             $table->timestamps();
 
             $table->foreign('request_id')->references('id')->on('requests')

@@ -14,7 +14,6 @@ export default function reqListForWaiting() {
     const [open, setOpen] = useState(false);
     const [idModal, setIdModal] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isLoadedOrders, setIsLoadedOrders] = useState(false);
 
     const handleClickOpen = (id) => {
         setIdModal(id)
@@ -72,7 +71,7 @@ export default function reqListForWaiting() {
                 {items.map((item, id) => (
                     <React.Fragment key={id}>
                         {item.data.length === 0 &&
-                        <div className={'p-2'}>Заявок нет</div>
+                            <div className={'p-2'}>Заявок нет</div>
                         }
                         {item.data.map((el, id) => (
                             <React.Fragment key={id}>

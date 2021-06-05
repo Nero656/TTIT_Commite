@@ -5,6 +5,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from "@material-ui/core/Checkbox";
+import Alert from "@material-ui/lab/Alert";
 
 
 function UserInput() {
@@ -116,7 +117,13 @@ export default function Request() {
     }
 
     if(user.length === 0){
-        return <div className={'container-fluid text-center mt-5'}>Ошибка 403, вы должны авторизироваться</div>
+        return (
+            <div className={'container-fluid text-center mt-5 col-6'}>
+                <Alert variant="filled" severity="error">
+                    Ошибка 403, вы должны авторизироваться
+                </Alert>
+            </div>
+        );
     }else{
         return (
             <form className={'container-fluid Form col-10 col-lg-6 mt-5'} encType="form-data" onSubmit={sendReg}>

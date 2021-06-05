@@ -33,7 +33,7 @@ export default function Header() {
                         <Nav.Link href="/applications">заявки для расмотрения</Nav.Link>
                     }
 
-                    {user &&
+                    {user.length !== 0 &&
                         <Nav.Link href="/send-request">Подача документов на поступление</Nav.Link>
                     }
 
