@@ -6,6 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import Checkbox from "@material-ui/core/Checkbox";
 
 
 function UserInput() {
@@ -38,9 +39,11 @@ export default function Registration() {
     let [tel, setTel] = useState('');
     let email = UserInput('');
     let password = UserInput('');
-    let avatarFile = UserInput('');
+    let avatarFile = UserInput({});
+    let avatarUrl= UserInput('');
     let [error, setError] = useState({})
     let [open, setOpen] = useState(false);
+    let [fileOrUrl, setFileOrUrl] = useState(false);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -56,18 +59,24 @@ export default function Registration() {
         avatarFile = e.target.files[0];
     }
 
+    const changeFileOrUrl = () => {
+        setFileOrUrl(!fileOrUrl);
+    }
+
 
     function sendReg(e) {
-        // preview = URL.createObjectURL(avatar);
-
         let data = new FormData();
         data.append('username', username.value());
         data.append('login', login.value());
         data.append('telephone_number', tel);
         data.append('email', email.value());
         data.append('password', password.value());
-        data.append('avatar', avatarFile);
-        data.append('avatar', avatarFile.value());
+
+        if(fileOrUrl === false){
+            data.append('avatar', avatarFile);
+        }else {
+            data.append('avatar', avatarUrl.value());
+        }
 
 
         e.preventDefault()
@@ -152,26 +161,34 @@ export default function Registration() {
                 />
 
                 <TextField
-                    {...avatarFile.bind}
+                    {...avatarUrl.bind}
                     id="standard-basic"
                     className={'col-12'}
                     label="Изоброжение URL"
                     name={'avatar'}
+
+                    disabled={!fileOrUrl}
                 />
             </div>
 
+            <div className={'mt-3'}>
+                <label>Отправить ссылку на изоброжение</label>
+                <Checkbox onClick={changeFileOrUrl}  color="primary"/>
+            </div>
+
             <input
-                accept="image/*"
+                accept="image/jpeg"
                 name={'avatar'}
                 className={classes.input}
-                onClick={fileUpload}
                 id="contained-button-file"
+                disabled={fileOrUrl}
+                onClick={fileUpload}
                 multiple
                 type="file"
             />
 
             <label htmlFor="contained-button-file">
-                <Button variant="contained" color="primary" component="span">
+                <Button variant="contained" color="primary" disabled={fileOrUrl} component="span">
                     Загрузить фотографию
                 </Button>
             </label>
