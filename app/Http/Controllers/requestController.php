@@ -55,7 +55,7 @@ class requestController extends Controller
         $request->delete();
 
         return response([
-            'You delete request' => $request
+            'You delete request' =>$request
         ]);
     }
 }
