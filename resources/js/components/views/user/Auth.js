@@ -2,7 +2,12 @@ import React, {useState} from "react";
 import {TextField, makeStyles} from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-
+import {useSelector, useDispatch } from 'react-redux';
+import {
+    auth,
+    setUser,
+    selectApiToken
+} from '../../../features/auth/authSlice';
 
 function UserInput() {
     let [value, setValue] = useState('');
@@ -34,11 +39,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Auth() {
+export default function AuthForm() {
     let login = UserInput('');
     let password = UserInput('');
     let [error, setError] = useState('')
     let [open, setOpen] = useState(false);
+
+    const dispatch = useDispatch();
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -49,47 +56,51 @@ export default function Auth() {
     };
 
     function sendReg(e) {
-        let data = new FormData();
-        data.append('login', login.value());
-        data.append('password', password.value());
-
         e.preventDefault()
+
+        let data = new FormData();
+
+        data.append('login', login.value());
+        data.append('password',  password.value());
 
         fetch(`/api/user/auth`, {
             method: 'POST',
             body: data
         }).then(async response => {
             const data = await response.json();
-            console.log(response.ok);
+
             if (!response.ok) {
                 const error = (data && data.message) || response.status;
                 setOpen(true);
                 return Promise.reject(error);
+
             } else {
-                localStorage.token = data.message
+                dispatch(auth(data.message))
 
                 fetch(`/api/user/show`, {
                     headers: {
                         'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
+                        'Authorization': 'Bearer ' + data.message
                     },
                 }).then(function (response) {
                     if (response.status !== 200) {
                         const error = (data && data.message) || response.status;
                         return Promise.reject(error);
                     }
-                    // Examine the text in the response
-                    response.json().then(function (data) {
-                        const user = JSON.stringify(data);
-                        localStorage.setItem('User', user);
-                        console.log('user ', localStorage.getItem('User'))
-                        window.location.replace('/');
+                response.json().then(function (data) {
+                    dispatch(setUser(data))
+                    // window.location.replace('/');
                     });
                 })
+
             }
         }).catch(error => {
             setError('Ошибка авторизации, проверьте свои данные');
         });
+
+        // console.log(selectApiToken)
+
+
     }
 
     return (

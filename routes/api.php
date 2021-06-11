@@ -34,6 +34,7 @@ Route::prefix('/user')->group(function (){
 
 Route::prefix('/category')->group(function (){
    Route::get('/all', [categoryController::class, 'index']);
+   Route::get('/{category}', [categoryController::class, 'show']);
    Route::middleware('auth:api')->post('/', [categoryController::class, 'store']);
    Route::middleware('auth:api')->patch('/{category}', [categoryController::class, 'update']);
    Route::middleware('auth:api')->delete('/{category}', [categoryController::class, 'delete']);

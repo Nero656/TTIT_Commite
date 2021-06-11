@@ -29,6 +29,10 @@ class categoryController extends Controller
         ])->setStatusCode(201);
     }
 
+    public function show(Category $category){
+        return $category;
+    }
+
     public function update(Category $category, Request $request){
 
         $update = [

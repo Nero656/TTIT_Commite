@@ -11,6 +11,8 @@ import Category from "./views/category";
 import Registration from "./views/user/registration";
 import AdminPanel from "./views/admin-penel/index"
 import Applications from "./views/applications"
+import {Provider} from 'react-redux';
+import store from '../app/store';
 import {
     BrowserRouter as Router,
     Switch,
@@ -21,41 +23,43 @@ import {
 export default function Index() {
     return (
         <Router>
-            <div className={'wrapper mb-5'}>
-                <Header/>
-                <div className={'content'}>
-                    <Switch >
-                        <Route path="/prof-list">
-                            <ProfL/>
-                        </Route>
-                        <Route path="/user-page">
-                            <UserPage/>
-                        </Route>
-                        <Route path="/registration">
-                            <Registration/>
-                        </Route>
-                        <Route path="/sign-in">
-                            <Auth/>
-                        </Route>
-                        <Route path="/category">
-                            <Category/>
-                        </Route>
-                        <Route path="/send-request">
-                            <SendRequest/>
-                        </Route>
-                        <Route path="/admin-panel">
-                            <AdminPanel/>
-                        </Route>
-                        <Route path="/applications">
-                            <Applications/>
-                        </Route>
-                        <Route path="/">
-                            <Home/>
-                        </Route>
-                    </Switch>
-                </div>
-            </div>
-            <Footer/>
+            <Provider store={store}>
+                    <div className={'wrapper mb-5'}>
+                        <Header/>
+                        <div className={'content'}>
+                            <Switch>
+                                <Route path="/prof-list">
+                                    <ProfL/>
+                                </Route>
+                                <Route path="/user-page">
+                                    <UserPage/>
+                                </Route>
+                                <Route path="/registration">
+                                    <Registration/>
+                                </Route>
+                                <Route path="/sign-in">
+                                    <Auth/>
+                                </Route>
+                                <Route path="/category">
+                                    <Category/>
+                                </Route>
+                                <Route path="/send-request">
+                                    <SendRequest/>
+                                </Route>
+                                <Route path="/admin-panel">
+                                    <AdminPanel/>
+                                </Route>
+                                <Route path="/applications">
+                                    <Applications/>
+                                </Route>
+                                <Route path="/">
+                                    <Home/>
+                                </Route>
+                            </Switch>
+                        </div>
+                    </div>
+                    <Footer/>
+            </Provider>
         </Router>
     );
 }
