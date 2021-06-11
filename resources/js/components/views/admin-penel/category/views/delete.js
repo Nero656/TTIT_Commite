@@ -36,16 +36,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Request() {
-    let title = UserInput('');
-    let certificate = UserInput('');
-    let Passport = UserInput('');
-    let user = [];
-
     const [items, setItems] = useState([]);
+    const [id, setId] = useState('');
+    const [open, setOpen] = useState(false);
     const classes = useStyles();
-    const [id, setId] = React.useState('');
-    const [Agr, setAgr] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
         fetch(`/api/category/all`).then(async response => {
@@ -60,10 +54,6 @@ export default function Request() {
         })
     }, [])
 
-    if (localStorage.getItem('User') !== null){
-        user = JSON.parse(localStorage.getItem('User'));
-    }
-
 
     const handleChange = (event) => {
         setId(event.target.value);
@@ -77,31 +67,17 @@ export default function Request() {
         setOpen(true);
     };
 
-    const agreement = () =>{
-        setAgr(!Agr);
-    }
-
-    // function fileUpload(e) {
-    //     avatar = e.target.files[0];
-    // }
 
     function sendReg(e) {
         let data = new FormData();
-        data.append('title', title.value());
-        data.append('category_id', id+1);
-        data.append('user_id', user.id);
-        data.append('certificate', certificate.value());
-        data.append('Passport', Passport.value());
-        data.append('agreement', 1);
 
         e.preventDefault()
-        fetch(`/api/requests/`, {
-            method: 'POST',
+        fetch(`/api/category/`+id, {
+            method: 'delete',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.token
-            },
-            body: data
+            }
         }).then(async response => {
             const data = await response.json();
             if (!response.ok) {
@@ -131,48 +107,16 @@ export default function Request() {
                     onChange={handleChange}
                 >
                     {items.map((item, id) => (
-                        <MenuItem value={id} key={id}>{item.title}</MenuItem>
+                        <MenuItem value={item.id} key={id}>{item.title}</MenuItem>
                     ))}
                 </Select>
             </FormControl>
 
-            <div className={'mt-3'} >
-                <label>Согласие на обработку персональных данных</label>
-                <Checkbox onClick={agreement} required color="primary"/>
-            </div>
-
-            {/*<input*/}
-            {/*    accept="image/*"*/}
-            {/*    name={'avatar'}*/}
-            {/*    className={classes.input}*/}
-            {/*    onClick={fileUpload}*/}
-            {/*    id="contained-button-file"*/}
-            {/*    multiple*/}
-            {/*    type="file"*/}
-            {/*/>*/}
-
-            {/*<img src={preview.value()} alt=""/>*/}
-            {/*<label htmlFor="contained-button-file">*/}
-            {/*    <Button variant="contained" color="primary" component="span">*/}
-            {/*        Прикрепить файл*/}
-            {/*    </Button>*/}
-            {/*</label>*/}
-            {Agr === false &&
-            <Button
-                disabled
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"
-                tabIndex="0">
-                <span className="MuiButton-label">Подать заявку</span>
-                <span className="MuiTouchRipple-root"> </span>
-            </Button>
-            }
-            {Agr === true &&
             <button
                 className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"
                 tabIndex="0"><span className="MuiButton-label">Подать заявку</span>
                 <span className="MuiTouchRipple-root"> </span>
             </button>
-            }
         </form>
     );
 }

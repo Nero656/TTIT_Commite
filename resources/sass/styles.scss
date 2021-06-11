@@ -1,5 +1,7 @@
-.Form{
+.Form {
+    z-index: 100;
     margin-top: 3em;
+    background-color: #ffffff;
     padding: 15px;
     border-radius: 10px;
     -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -7,17 +9,48 @@
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
-.butRight{
-    position: absolute;
-    right: 25px;
-    bottom: 25px;
+.UserCard {
+    display: flex;
+    flex-flow: row wrap;
 }
 
-.footer{
-    color: white;
-    width: 100%;
-    position: fixed;
-    margin-top: 10px;
-    bottom: 0;
-    background-color: #343A40;
+
+@media screen and (min-width: 480px) {
+    .butRight {
+        position: absolute;
+        right: 25px;
+        top: 230px;
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .butRight {
+        position: center;
+        margin-top: 15px;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 710px;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex: 0 0 auto;
 }

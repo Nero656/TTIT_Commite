@@ -1,6 +1,5 @@
 import React from "react";
 import {makeStyles} from '@material-ui/core';
-import ProfList from './profList'
 import Button from "@material-ui/core/Button";
 import SendIcon from '@material-ui/icons/Send';
 
@@ -13,10 +12,22 @@ const useStyles = makeStyles((theme) => ({
 export default function body() {
     const classes = useStyles();
 
+    let user = [];
+    if (localStorage.getItem('User') !== null){
+        user = JSON.parse(localStorage.getItem('User'));
+    }
+
+    const handle = () => {
+        if (user.length === 0){
+            return window.location.replace('/registration');
+        }else{
+            return window.location.replace('/user-page');
+        }
+    };
+
     return (
         <div className={'container-fluid row justify-content-center'}>
-            <ProfList/>
-            <div className={'Form ml-3 col-6'}>
+            <div className={'Form ml-3 col-12 col-lg-6'}>
                 <h1>Подача документов</h1>
                 <p className="text-justify">
                     С другой стороны начало повседневной работы по формированию позиции в значительной степени
@@ -37,7 +48,6 @@ export default function body() {
                     административных условий.
                 </p>
                 <p className="text-justify">
-
                     Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей
                     деятельности играет важную роль в формировании системы обучения кадров, соответствует насущным
                     потребностям.
@@ -55,6 +65,7 @@ export default function body() {
                 <Button
                     variant="contained"
                     color="primary"
+                    onClick={handle}
                     className={classes.button}
                     endIcon={<SendIcon/>}
                 >

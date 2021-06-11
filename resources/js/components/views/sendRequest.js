@@ -5,6 +5,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from "@material-ui/core/Checkbox";
+import Alert from "@material-ui/lab/Alert";
 
 
 function UserInput() {
@@ -43,9 +44,9 @@ export default function Request() {
 
     const [items, setItems] = useState([]);
     const classes = useStyles();
-    const [id, setId] = React.useState('');
-    const [Agr, setAgr] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
+    const [id, setId] = useState('');
+    const [Agr, setAgr] = useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         fetch(`/api/category/all`).then(async response => {
@@ -87,8 +88,8 @@ export default function Request() {
 
     function sendReg(e) {
         let data = new FormData();
-        data.append('title', title.value());
-        data.append('category_id', id+1);
+        data.append('title', 'Заявка на поступление ' + user.username);
+        data.append('category_id', id);
         data.append('user_id', user.id);
         data.append('certificate', certificate.value());
         data.append('Passport', Passport.value());
@@ -115,92 +116,93 @@ export default function Request() {
         });
     }
 
-    return (
-        <form className={'container-fluid Form col-6 mt-5'} encType="form-data" onSubmit={sendReg}>
-            <h1 className={'text-center'}>Отправить заявку</h1>
-            <div className={'mt-3'}>
-                <TextField
-                    className={'col-12'}
-                    {...title.bind}
-                    id="standard-basic"
-                    label="Загаловок"
-                    required
-                />
+    if(user.length === 0){
+        return (
+            <div className={'container-fluid text-center mt-5 col-6'}>
+                <Alert variant="filled" severity="error">
+                    Ошибка 403, вы должны авторизироваться
+                </Alert>
             </div>
-            {/*потом сделать файлом*/}
-            <div className={'mt-3'}>
-                <TextField
-                    className={'col-12'}
-                    {...certificate.bind}
-                    id="standard-basic"
-                    label="Атестат"
-                    required
-                />
-            </div>
-            <div className={'mt-3'}>
-                <TextField
-                    className={'col-12'}
-                    {...Passport.bind}
-                    id="standard-basic"
-                    label="Паспорт"
-                    required
-                />
-            </div>
+        );
+    }else{
+        return (
+            <form className={'container-fluid Form col-10 col-lg-6 mt-5'} encType="form-data" onSubmit={sendReg}>
+                <h1 className={'text-center'}>Отправить заявку</h1>
+                {/*потом сделать файлом*/}
+                <div className={'mt-3'}>
+                    <TextField
+                        className={'col-12'}
+                        {...certificate.bind}
+                        id="standard-basic"
+                        label="Атестат"
+                        required
+                    />
+                </div>
+                <div className={'mt-3'}>
+                    <TextField
+                        className={'col-12'}
+                        {...Passport.bind}
+                        id="standard-basic"
+                        label="Паспорт"
+                        required
+                    />
+                </div>
 
-            <FormControl className={classes.formControl+' mt-3'}>
-                <InputLabel id="demo-controlled-open-select-label">Выберете факультет</InputLabel>
-                <Select
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
-                    open={open}
-                    onClose={handleClose}
-                    onOpen={handleOpen}
-                    value={id}
-                    onChange={handleChange}
-                >
-                    {items.map((item, id) => (
-                        <MenuItem value={id} key={id}>{item.title}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                <FormControl className={classes.formControl + ' mt-3'}>
+                    <InputLabel id="demo-controlled-open-select-label">Выберете факультет</InputLabel>
+                    <Select
+                        labelId="demo-controlled-open-select-label"
+                        id="demo-controlled-open-select"
+                        open={open}
+                        onClose={handleClose}
+                        onOpen={handleOpen}
+                        value={id}
+                        onChange={handleChange}
+                    >
+                        {items.map((item, id) => (
+                            <MenuItem value={item.id} key={id}>{item.title}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-            <div className={'mt-3'} >
-                <label>Согласие на обработку персональных данных</label>
-                <Checkbox onClick={agreement} required color="primary"/>
-            </div>
+                <div className={'mt-3'}>
+                    <label>Согласие на обработку персональных данных</label>
+                    <Checkbox onClick={agreement} required color="primary"/>
+                </div>
 
-            {/*<input*/}
-            {/*    accept="image/*"*/}
-            {/*    name={'avatar'}*/}
-            {/*    className={classes.input}*/}
-            {/*    onClick={fileUpload}*/}
-            {/*    id="contained-button-file"*/}
-            {/*    multiple*/}
-            {/*    type="file"*/}
-            {/*/>*/}
+                {/*<input*/}
+                {/*    accept="image/*"*/}
+                {/*    name={'avatar'}*/}
+                {/*    className={classes.input}*/}
+                {/*    onClick={fileUpload}*/}
+                {/*    id="contained-button-file"*/}
+                {/*    multiple*/}
+                {/*    type="file"*/}
+                {/*/>*/}
 
-            {/*<img src={preview.value()} alt=""/>*/}
-            {/*<label htmlFor="contained-button-file">*/}
-            {/*    <Button variant="contained" color="primary" component="span">*/}
-            {/*        Прикрепить файл*/}
-            {/*    </Button>*/}
-            {/*</label>*/}
-            {Agr === false &&
-            <Button
-                disabled
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"
-                tabIndex="0">
-                <span className="MuiButton-label">Подать заявку</span>
-                <span className="MuiTouchRipple-root"> </span>
-            </Button>
-            }
-            {Agr === true &&
-            <button
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"
-                tabIndex="0"><span className="MuiButton-label">Подать заявку</span>
-                <span className="MuiTouchRipple-root"> </span>
-            </button>
-            }
-        </form>
-    );
+                {/*<img src={preview.value()} alt=""/>*/}
+                {/*<label htmlFor="contained-button-file">*/}
+                {/*    <Button variant="contained" color="primary" component="span">*/}
+                {/*        Прикрепить файл*/}
+                {/*    </Button>*/}
+                {/*</label>*/}
+                {Agr === false &&
+                <Button
+                    disabled
+                    className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"
+                    tabIndex="0">
+                    <span className="MuiButton-label">Подать заявку</span>
+                    <span className="MuiTouchRipple-root"> </span>
+                </Button>
+                }
+                {Agr === true &&
+                <button
+                    className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"
+                    tabIndex="0"><span className="MuiButton-label">Подать заявку</span>
+                    <span className="MuiTouchRipple-root"> </span>
+                </button>
+                }
+            </form>
+        );
+    }
 }
