@@ -162,7 +162,8 @@ export default function CustomPaginationActionsTable() {
                 <TableBody>
                     {(rowsPerPage > 0
                             ? items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : items).map((item) => (
+                            : items
+                        ).map((item) => (
                         <TableRow key={item.id}>
                             <TableCell component="th" scope="row" style={{ width: 160 }}>
                                 <Avatar alt={item.username} src={item.avatar} className={classes.avatar}/>
@@ -191,7 +192,6 @@ export default function CustomPaginationActionsTable() {
                                     <MenuItem onClick={handleClose}>Студент</MenuItem>
                                     <MenuItem onClick={handleClose}>Преподователь</MenuItem>
                                 </Menu>
-
                             </TableCell>
                             <TableCell style={{ width: 160 }}>
                                 {item.telephone_number}

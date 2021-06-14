@@ -114,7 +114,7 @@ export default function Request() {
 
             <button
                 className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"
-                tabIndex="0"><span className="MuiButton-label">Подать заявку</span>
+                tabIndex="0"><span className="MuiButton-label">Удалить заявку</span>
                 <span className="MuiTouchRipple-root"> </span>
             </button>
         </form>
