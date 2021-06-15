@@ -53,7 +53,7 @@ class User extends Authenticatable
     }
 
     static function professorList(){
-        return self::where(['role_id' => 2])->get();
+        return self::where(['role_id' => 2])->paginate(6);
     }
 
     /**
