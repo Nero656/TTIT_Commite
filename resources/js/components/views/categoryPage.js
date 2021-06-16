@@ -44,7 +44,6 @@ export default function categoryPage({prop, getProp, body}) {
                     </DialogContentText>
                 </DialogContent>
             </Dialog>
-            }
         </div>
     );
 }
