@@ -28,6 +28,7 @@ export default function category() {
     const [open, setOpen] = useState(false);
     const [catId, setId] = useState(0);
     const [bodyPage, setBody ]= useState([]);
+    const [bodyLoading, setLoad ]= useState(false);
 
 
     const handleClickOpen = (id) => {
@@ -78,7 +79,7 @@ export default function category() {
     } else {
         return (
             <div className={'container  mt-5 '}>
-                <CategoryPage prop={open}  getProp={handleClose} body={bodyPage}/>
+                <CategoryPage prop={open}  getProp={handleClose} body={bodyPage} loaded={bodyLoading}/>
                 <div className={'row row-cols-lg-3'}>
                 {items.map((item, id) => (
                     <CardActionArea className={classes.root+' ml-3 mt-2'} onClick={() => handleClickOpen(item.id)}>
