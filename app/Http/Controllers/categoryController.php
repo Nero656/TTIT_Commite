@@ -13,6 +13,10 @@ class categoryController extends Controller
         return Category::all();
     }
 
+    public function show(category $category){
+        return $category;
+    }
+
     /**
      * @param Request $request
      */
@@ -41,6 +45,7 @@ class categoryController extends Controller
             'You update category' => $category
         ])->setStatusCode(201);
     }
+
 
     public function delete(Category $category){
         $category->delete();

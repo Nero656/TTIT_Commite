@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Auth() {
-    let login = UserInput('');
+    let email = UserInput('');
     let password = UserInput('');
     let [error, setError] = useState('')
     let [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ export default function Auth() {
 
     function sendReg(e) {
         let data = new FormData();
-        data.append('login', login.value());
+        data.append('email', email.value());
         data.append('password', password.value());
 
         e.preventDefault()
@@ -104,8 +104,8 @@ export default function Auth() {
                 </Alert>
             </Snackbar>
             <h1 className={'text-center'}>Авторизация </h1>
-            <TextField {...login.bind} required id="standard-basic" className={'col-lg-12'} label="Логин"
-                       name={'login'}/>
+            <TextField {...email.bind} required id="standard-basic" className={'col-lg-12'} label="Email"
+                       name={'Email'}/>
             <TextField
                 required
                 {...password.bind}

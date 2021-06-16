@@ -35,6 +35,15 @@ class orderController extends Controller
             'you create' => $order
         ]);
     }
+
+    public function download()
+    {
+        $file = public_path()."/file.docx";
+
+        return response()->download($file, 'file.docx');
+    }
+
+
     public function show(order $order){
         return $order->with( 'request.category')->findOrFail($order->id);
     }

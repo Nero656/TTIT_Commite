@@ -6,6 +6,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import CategoryPage from "./categoryPage";
 
 const useStyles = makeStyles({
     root: {
@@ -21,10 +22,36 @@ const useStyles = makeStyles({
 
 export default function category() {
     const classes = useStyles();
-
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [catId, setId] = useState(0);
+    const [bodyPage, setBody ]= useState([]);
+
+
+    const handleClickOpen = (id) => {
+        setId(id);
+        console.log(id);
+
+        fetch(`/api/category/` + id).then(async response => {
+            if (!response.ok) {
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error);
+            } else {
+                response.json().then(function (data) {
+                    setBody(data);
+                });
+            }
+        })
+
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setBody([])
+        setOpen(false);
+    };
 
     useEffect(() => {
         fetch(`/api/category/all`).then(async response => {
@@ -39,6 +66,7 @@ export default function category() {
             }
         })
     }, [])
+
     if (error) {
         return <div>Ошибка: {error.message}</div>;
     } else if (!isLoaded) {
@@ -50,9 +78,10 @@ export default function category() {
     } else {
         return (
             <div className={'container  mt-5 '}>
+                <CategoryPage prop={open}  getProp={handleClose} body={bodyPage}/>
                 <div className={'row row-cols-lg-3'}>
                 {items.map((item, id) => (
-                    <CardActionArea className={classes.root+' ml-3 mt-2 '}>
+                    <CardActionArea className={classes.root+' ml-3 mt-2'} onClick={() => handleClickOpen(item.id)}>
                     <Card className={classes.root}>
                             <CardMedia
                                 component="img"

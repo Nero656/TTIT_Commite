@@ -23,11 +23,19 @@ class requestController extends Controller
 
     public function store(requestRequest $request)
     {
+        $file = $request -> file('certificate');
+
+        $fileName = uniqid() . '.' . $file -> extension();
+
+        $fileDir = 'public/file/';
+
+        $file->storeAs($fileDir, $fileName);
+
         $req = \App\Models\request::create([
             'title' => $request->title,
             'category_id' => $request->category_id,
             'user_id' => $request->user_id,
-            'certificate' => $request->certificate,
+            'certificate' => $fileDir.$fileName,
             'Passport' => $request->Passport,
             'agreement' => $request->agreement
         ]);

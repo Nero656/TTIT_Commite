@@ -49,7 +49,7 @@ export default function Order({prop, sendDate, getProp}) {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.token
+                    'Authorization': 'Bearer ' + localStorage.token,
                 },
                 body: data
             }
@@ -69,6 +69,27 @@ export default function Order({prop, sendDate, getProp}) {
         console.log('order ', order);
     };
 
+    const download = () => {
+        fetch(`/api/orders/download`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.token,
+                    responseType: 'blob',
+                }
+            }
+        ).then(response => response.blob())
+            .then(blob => {
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = "filename.docx";
+                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+                a.click();
+                a.remove();  //afterwards we remove the element again
+            });
+    };
+
     return (
         <div>
             <Dialog
@@ -79,8 +100,13 @@ export default function Order({prop, sendDate, getProp}) {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
+
+
                 <DialogTitle id="alert-dialog-slide-title">{'Отправте файл ' + sendDate}</DialogTitle>
                 <DialogContent>
+                    <Button onClick={download} color="primary" variant="contained">
+                        Скачать файл для заполнения данных
+                    </Button>
                     <DialogContentText id="alert-dialog-slide-description">
                         Let Google help apps determine location. This means sending anonymous location data to
                         Google, even when no apps are running.

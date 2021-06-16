@@ -159,39 +159,7 @@ export default function Registration() {
                     label="Пароль" type="password"
                     name={'password'}
                 />
-
-                {/*<TextField*/}
-                {/*    {...avatarUrl.bind}*/}
-                {/*    id="standard-basic"*/}
-                {/*    className={'col-12'}*/}
-                {/*    label="Изоброжение URL"*/}
-                {/*    name={'avatar'}*/}
-
-                {/*    disabled={!fileOrUrl}*/}
-                {/*/>*/}
             </div>
-
-            {/*<div className={'mt-3'}>*/}
-            {/*    <label>Отправить ссылку на изоброжение</label>*/}
-            {/*    <Checkbox onClick={changeFileOrUrl}  color="primary"/>*/}
-            {/*</div>*/}
-
-            {/*<input*/}
-            {/*    accept="image/jpeg"*/}
-            {/*    name={'avatar'}*/}
-            {/*    className={classes.input}*/}
-            {/*    id="contained-button-file"*/}
-            {/*    disabled={fileOrUrl}*/}
-            {/*    onClick={fileUpload}*/}
-            {/*    multiple*/}
-            {/*    type="file"*/}
-            {/*/>*/}
-
-            {/*<label htmlFor="contained-button-file">*/}
-            {/*    <Button variant="contained" color="primary" disabled={fileOrUrl} component="span">*/}
-            {/*        Загрузить фотографию*/}
-            {/*    </Button>*/}
-            {/*</label>*/}
 
             <button
                 className="MuiButtonBase-root MuiButton-root MuiButton-contained mt-3 col-12 MuiButton-containedPrimary"

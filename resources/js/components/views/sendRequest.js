@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from "@material-ui/core/Checkbox";
 import Alert from "@material-ui/lab/Alert";
+import User from "./user/UserPage";
 
 
 function UserInput() {
@@ -32,14 +33,23 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(0),
-        minWidth: 200,
+        minWidth: 250,
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
     },
 }));
 
 export default function Request() {
-    let title = UserInput('');
-    let certificate = UserInput('');
     let Passport = UserInput('');
+    let series = UserInput('');
+    let file = UserInput('');
     let user = [];
 
     const [items, setItems] = useState([]);
@@ -47,6 +57,11 @@ export default function Request() {
     const [id, setId] = useState('');
     const [Agr, setAgr] = useState(false);
     const [open, setOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
 
     useEffect(() => {
         fetch(`/api/category/all`).then(async response => {
@@ -61,7 +76,7 @@ export default function Request() {
         })
     }, [])
 
-    if (localStorage.getItem('User') !== null){
+    if (localStorage.getItem('User') !== null) {
         user = JSON.parse(localStorage.getItem('User'));
     }
 
@@ -78,24 +93,27 @@ export default function Request() {
         setOpen(true);
     };
 
-    const agreement = () =>{
+    const agreement = () => {
         setAgr(!Agr);
     }
 
-    // function fileUpload(e) {
-    //     avatar = e.target.files[0];
-    // }
+    function fileUpload(e) {
+        file = e.target.files[0];
+    }
 
     function sendReg(e) {
         let data = new FormData();
         data.append('title', 'Заявка на поступление ' + user.username);
         data.append('category_id', id);
         data.append('user_id', user.id);
-        data.append('certificate', certificate.value());
-        data.append('Passport', Passport.value());
+        data.append('certificate', file);
+        data.append('Passport', Passport.value()+' '+series.value());
         data.append('agreement', 1);
 
         e.preventDefault()
+
+
+
         fetch(`/api/requests/`, {
             method: 'POST',
             headers: {
@@ -116,7 +134,7 @@ export default function Request() {
         });
     }
 
-    if(user.length === 0){
+    if (user.length === 0) {
         return (
             <div className={'container-fluid text-center mt-5 col-6'}>
                 <Alert variant="filled" severity="error">
@@ -124,68 +142,72 @@ export default function Request() {
                 </Alert>
             </div>
         );
-    }else{
+    } else {
         return (
             <form className={'container-fluid Form col-10 col-lg-6 mt-5'} encType="form-data" onSubmit={sendReg}>
                 <h1 className={'text-center'}>Отправить заявку</h1>
                 {/*потом сделать файлом*/}
+
                 <div className={'mt-3'}>
                     <TextField
-                        className={'col-12'}
-                        {...certificate.bind}
-                        id="standard-basic"
-                        label="Атестат"
-                        required
-                    />
-                </div>
-                <div className={'mt-3'}>
-                    <TextField
-                        className={'col-12'}
+                        className={'col-9'}
                         {...Passport.bind}
                         id="standard-basic"
-                        label="Паспорт"
+                        label="Паспорт гражданина РФ сеирия"
                         required
                     />
+
+
+                    <TextField
+                        id="date"
+                        label="Дата выдачи"
+                        type="date"
+                        {...series.bind}
+                        className={classes.textField}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+
+
+                    <FormControl className={classes.formControl + ' mt-3'}>
+                        <InputLabel id="demo-controlled-open-select-label">Выберите специальность</InputLabel>
+                        <Select
+                            labelId="demo-controlled-open-select-label"
+                            id="demo-controlled-open-select"
+                            open={open}
+                            onClose={handleClose}
+                            onOpen={handleOpen}
+                            value={id}
+                            onChange={handleChange}
+                        >
+                            {items.map((item, id) => (
+                                <MenuItem value={item.id} key={id}>{item.title}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </div>
 
-                <FormControl className={classes.formControl + ' mt-3'}>
-                    <InputLabel id="demo-controlled-open-select-label">Выберете факультет</InputLabel>
-                    <Select
-                        labelId="demo-controlled-open-select-label"
-                        id="demo-controlled-open-select"
-                        open={open}
-                        onClose={handleClose}
-                        onOpen={handleOpen}
-                        value={id}
-                        onChange={handleChange}
-                    >
-                        {items.map((item, id) => (
-                            <MenuItem value={item.id} key={id}>{item.title}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                <input
+                    accept={".docx"}
+                    name={'certificate'}
+                    className={classes.input}
+                    onClick={fileUpload}
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                />
+                <label htmlFor="contained-button-file" className={'mt-3'}>
+                    <Button variant="contained" color="primary" component="span">
+                        Прикрепить атестат
+                    </Button>
+                </label>
 
                 <div className={'mt-3'}>
                     <label>Согласие на обработку персональных данных</label>
                     <Checkbox onClick={agreement} required color="primary"/>
                 </div>
 
-                {/*<input*/}
-                {/*    accept="image/*"*/}
-                {/*    name={'avatar'}*/}
-                {/*    className={classes.input}*/}
-                {/*    onClick={fileUpload}*/}
-                {/*    id="contained-button-file"*/}
-                {/*    multiple*/}
-                {/*    type="file"*/}
-                {/*/>*/}
-
-                {/*<img src={preview.value()} alt=""/>*/}
-                {/*<label htmlFor="contained-button-file">*/}
-                {/*    <Button variant="contained" color="primary" component="span">*/}
-                {/*        Прикрепить файл*/}
-                {/*    </Button>*/}
-                {/*</label>*/}
                 {Agr === false &&
                 <Button
                     disabled

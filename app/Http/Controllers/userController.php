@@ -94,7 +94,7 @@ class userController extends Controller
 
     public function auth()
     {
-        if (!auth()->attempt(request(['login', 'password']))) {
+        if (!auth()->attempt(request(['email', 'password']))) {
             return response()->json(['message' => 'authorization error'])->setStatusCode(403);
         }
 
