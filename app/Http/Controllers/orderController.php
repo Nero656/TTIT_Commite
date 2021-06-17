@@ -23,8 +23,16 @@ class orderController extends Controller
 
     public function store(Request $request){
 
+        $file = $request -> file('file');
+
+        $fileName = uniqid() . '.' . $file -> extension();
+
+        $fileDir = 'public/file/';
+
+        $file->storeAs($fileDir, $fileName);
+
         $order = order::create([
-            'file'=>$request->file,
+            'file'=>$request->$fileDir.$fileName,
             'status'=>$request->status,
             'user_id' => $request->user_id,
             'request_id' => $request->request_id
@@ -43,6 +51,13 @@ class orderController extends Controller
         return response()->download($file, 'file.docx');
     }
 
+
+    public function downloadReqFile(Order $order)
+    {
+        $file = storage_path('app/public/file/').$order->file;
+//        dd($file);
+        return response()->download($file, 'file.docx');
+    }
 
     public function show(order $order){
         return $order->with( 'request.category')->findOrFail($order->id);

@@ -75,7 +75,6 @@ export default function reqListForWaiting() {
                         }
                         {item.data.map((el, id) => (
                             <React.Fragment key={id}>
-                                <Order prop={open} sendDate={idModal} getProp={handleClose}/>
                                 <ListItem button onClick={() => handleClickOpen(el.id)}>
                                     <ListItemAvatar>
                                         <Avatar>
@@ -93,6 +92,7 @@ export default function reqListForWaiting() {
                         ))}
                     </React.Fragment>
                 ))}
+                <Order prop={open} sendDate={idModal} getProp={handleClose}/>
             </List>
         );
     }

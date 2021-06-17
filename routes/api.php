@@ -51,6 +51,7 @@ Route::prefix('/requests')->group(function (){
 
 Route::prefix('/orders')->group(function (){
     Route::get('/download', [orderController::class, 'download']);
+    Route::get('/downloadReqFile/{order}', [orderController::class, 'downloadReqFile']);
     Route::middleware('auth:api')->get('/all', [orderController::class, 'index']);
     Route::middleware('auth:api')->get('/{order}', [orderController::class, 'show']);
     Route::middleware('auth:api')->post('/userOrder', [orderController::class, 'UserOrderList']);

@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Send from "@material-ui/icons/Send";
 import {Cancel} from "@material-ui/icons";
-import TextField from "@material-ui/core/TextField";
+import {makeStyles} from "@material-ui/core";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -27,36 +27,67 @@ function UserInput() {
     }
 }
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    input: {
+        display: 'none',
+    },
+    formControl: {
+        margin: theme.spacing(0),
+        minWidth: 250,
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
+    },
+}));
+
 export default function Order({prop, sendDate, getProp}) {
+    const classes = useStyles();
+
     let user = [];
     let file = UserInput('');
-    const [order, setOrder] = useState(sendDate);
-    const [error, setError] = useState(null);
 
     if (localStorage.getItem('User') !== null) {
         user = JSON.parse(localStorage.getItem('User'));
     }
 
-    const sendOrder = () => {
-        setOrder(sendDate)
+    function fileUpload(e) {
+        file = e.target.files[0];
+    }
+
+    function sendOrder(e) {
+        console.log(file)
 
         let data = new FormData();
+
         data.append('request_id', sendDate);
         data.append('user_id', user.id);
-        data.append('file', sendDate);
+        data.append('file', file);
+
+        e.preventDefault()
+
 
         fetch(`/api/orders/`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.token,
+                    'Authorization': 'Bearer ' + localStorage.token
                 },
                 body: data
             }
         ).then(async response => {
             if (!response.ok) {
                 const error = (data && data.message) || response.status;
-                // setError(error);
                 return Promise.reject(error);
             } else {
                 response.json().then(function (data) {
@@ -65,9 +96,7 @@ export default function Order({prop, sendDate, getProp}) {
                 });
             }
         })
-
-        console.log('order ', order);
-    };
+    }
 
     const download = () => {
         fetch(`/api/orders/download`, {
@@ -84,7 +113,8 @@ export default function Order({prop, sendDate, getProp}) {
                 let a = document.createElement('a');
                 a.href = url;
                 a.download = "filename.docx";
-                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will
+                // not work in firefox
                 a.click();
                 a.remove();  //afterwards we remove the element again
             });
@@ -101,24 +131,34 @@ export default function Order({prop, sendDate, getProp}) {
                 aria-describedby="alert-dialog-slide-description"
             >
 
-
-                <DialogTitle id="alert-dialog-slide-title">{'Отправте файл ' + sendDate}</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title">{'Отправте файл для поступления'}</DialogTitle>
                 <DialogContent>
-                    <Button onClick={download} color="primary" variant="contained">
-                        Скачать файл для заполнения данных
-                    </Button>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Let Google help apps determine location. This means sending anonymous location data to
-                        Google, even when no apps are running.
+                        Скачайте документ, заполните, затем отправьте его нам
                     </DialogContentText>
-                    <TextField
-                        autoFocus
-                        {...file.bind}
-                        margin="dense"
-                        label="file"
-                        type="text"
-                        fullWidth
+
+                    <div>
+                        <Button onClick={download} color="primary" variant="contained">
+                            Скачать файл для заполнения данных
+                        </Button>
+                    </div>
+
+                    <input
+                        accept={".docx"}
+                        name={'file'}
+                        className={classes.input}
+                        onClick={fileUpload}
+                        id="order-file"
+                        multiple
+                        type="file"
                     />
+
+                    <label htmlFor="order-file" className={'mt-3'}>
+                        <Button variant="contained" color="primary" component="span">
+                            Прикрепить документ
+                        </Button>
+                    </label>
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={getProp} color="secondary" variant="outlined" endIcon={<Cancel/>}>

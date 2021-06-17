@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Request() {
     let Passport = UserInput('');
-    let series = UserInput('');
     let file = UserInput('');
     let user = [];
 
@@ -107,16 +106,15 @@ export default function Request() {
         data.append('category_id', id);
         data.append('user_id', user.id);
         data.append('certificate', file);
-        data.append('Passport', Passport.value()+' '+series.value());
+        data.append('Passport', Passport.value());
         data.append('agreement', 1);
 
         e.preventDefault()
 
-
-
         fetch(`/api/requests/`, {
             method: 'POST',
             headers: {
+                'Content-Type': 'multipart/form-data',
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.token
             },
@@ -147,27 +145,25 @@ export default function Request() {
             <form className={'container-fluid Form col-10 col-lg-6 mt-5'} encType="form-data" onSubmit={sendReg}>
                 <h1 className={'text-center'}>Отправить заявку</h1>
                 {/*потом сделать файлом*/}
-
                 <div className={'mt-3'}>
                     <TextField
-                        className={'col-9'}
+                        className={'col-12'}
                         {...Passport.bind}
                         id="standard-basic"
-                        label="Паспорт гражданина РФ сеирия"
+                        label="ФИО"
                         required
                     />
 
-
-                    <TextField
-                        id="date"
-                        label="Дата выдачи"
-                        type="date"
-                        {...series.bind}
-                        className={classes.textField}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
+                    {/*<TextField*/}
+                    {/*    id="date"*/}
+                    {/*    label="Дата выдачи"*/}
+                    {/*    type="date"*/}
+                    {/*    {...series.bind}*/}
+                    {/*    className={classes.textField}*/}
+                    {/*    InputLabelProps={{*/}
+                    {/*        shrink: true,*/}
+                    {/*    }}*/}
+                    {/*/>*/}
 
 
                     <FormControl className={classes.formControl + ' mt-3'}>
@@ -199,7 +195,7 @@ export default function Request() {
                 />
                 <label htmlFor="contained-button-file" className={'mt-3'}>
                     <Button variant="contained" color="primary" component="span">
-                        Прикрепить атестат
+                        Прикрепить документ
                     </Button>
                 </label>
 

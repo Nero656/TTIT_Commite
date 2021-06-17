@@ -53,15 +53,15 @@ export default function Registration() {
         setOpen(false);
     };
 
-    const classes = useStyles();
-
-    function fileUpload(e) {
-        avatarFile = e.target.files[0];
-    }
-
-    const changeFileOrUrl = () => {
-        setFileOrUrl(!fileOrUrl);
-    }
+    // const classes = useStyles();
+    //
+    // function fileUpload(e) {
+    //     avatarFile = e.target.files[0];
+    // }
+    //
+    // const changeFileOrUrl = () => {
+    //     setFileOrUrl(!fileOrUrl);
+    // }
 
 
     function sendReg(e) {
@@ -72,11 +72,11 @@ export default function Registration() {
         data.append('email', email.value());
         data.append('password', password.value());
 
-        if(fileOrUrl === false){
-            data.append('avatar', avatarFile);
-        }else {
-            data.append('avatar', avatarUrl.value());
-        }
+        // if(fileOrUrl === false){
+        //     data.append('avatar', avatarFile);
+        // }else {
+        //     data.append('avatar', avatarUrl.value());
+        // }
 
 
         e.preventDefault()

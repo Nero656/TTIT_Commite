@@ -8,6 +8,7 @@ import AccordionActions from "@material-ui/core/AccordionActions";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Link from "@material-ui/core/Link";
 
 const Accordion = withStyles({
     root: {
@@ -129,6 +130,28 @@ export default function CustomizedAccordions() {
         });
     }
 
+    const download = (id) => {
+        console.log(id);
+        fetch(`/api/orders/downloadReqFile/`+id, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.token,
+                    responseType: 'blob',
+                }
+            }
+        ).then(response => response.blob())
+            .then(blob => {
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = "resume.docx";
+                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+                a.click();
+                a.remove();  //afterwards we remove the element again
+            });
+    };
+
     if (error) {
         return <div>Ошибка: {error.message}</div>;
     } else if (!isLoaded) {
@@ -156,7 +179,11 @@ export default function CustomizedAccordions() {
                                                 {el.request.map((req, id) => (
                                                     <React.Fragment key={id}>
                                                         <h1>Заявка: {req.title}</h1>
-                                                        <h3>Атестат: {req.certificate}</h3>
+                                                        <h3>Скачать личное дело: &nbsp;
+                                                            <Link onClick={ () => download(el.id)} component="button">
+                                                                Скачать
+                                                            </Link>
+                                                        </h3>
                                                         {req.category.map((cat, id) => (
                                                             <React.Fragment key={id}>
                                                                 <h3>Выбранная специальность: {cat.title}</h3>
@@ -199,7 +226,11 @@ export default function CustomizedAccordions() {
                                                 {el.request.map((req, id) => (
                                                     <React.Fragment key={id}>
                                                         <h1>Заявка: {req.title}</h1>
-                                                        <h3>Атестат: {req.certificate}</h3>
+                                                        <h3>Скачать личное дело: &nbsp;
+                                                            <Link onClick={ () => download(el.id)} component="button">
+                                                                Скачать
+                                                            </Link>
+                                                        </h3>
                                                         {req.category.map((cat, id) => (
                                                             <React.Fragment key={id}>
                                                                 <h3>Выбранная специальность: {cat.title}</h3>
