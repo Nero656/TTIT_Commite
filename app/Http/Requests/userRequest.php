@@ -16,7 +16,6 @@ class userRequest extends ApiRequest
             "username" => "required",
             "login" => "required|unique:users",
             "email" => "required|unique:users",
-            "avatar" => "required",
             "telephone_number" => "unique:users",
             "password" => "required",
             "role_id",
